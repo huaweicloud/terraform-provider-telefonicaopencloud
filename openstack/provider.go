@@ -206,6 +206,7 @@ func Provider() terraform.ResourceProvider {
 			"openstack_objectstorage_object_v1":         resourceObjectStorageObjectV1(),
 			"openstack_as_group_v1":                     resourceASGroup(),
 			"openstack_as_configuration_v1":             resourceASConfiguration(),
+			"openstack_as_policy_v1":                    resourceASPolicy(),
 		},
 
 		ConfigureFunc: configureProvider,
