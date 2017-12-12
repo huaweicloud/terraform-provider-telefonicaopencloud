@@ -361,3 +361,9 @@ func NewLoadBalancerV2(client *gophercloud.ProviderClient, eo gophercloud.Endpoi
 	sc.ResourceBase = sc.Endpoint + "v2.0/"
 	return sc, err
 }
+
+func NewElasticLoadBalancer(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+	sc, err := initClientOpts(client, eo, "elb")
+	sc.ResourceBase = sc.Endpoint
+	return sc, err
+}
