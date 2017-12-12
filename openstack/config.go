@@ -256,6 +256,13 @@ func (c *Config) loadElasticLoadBalancerClient(region string) (*gophercloud.Serv
 	})
 }
 
+func (c *Config) autoscalingV1Client(region string) (*gophercloud.ServiceClient, error) {
+	return openstack.NewAutoScalingService(c.OsClient, gophercloud.EndpointOpts{
+		Region:       c.determineRegion(region),
+		Availability: c.getEndpointType(),
+	})
+}
+
 func (c *Config) getEndpointType() gophercloud.Availability {
 	if c.EndpointType == "internal" || c.EndpointType == "internalURL" {
 		return gophercloud.AvailabilityInternal
