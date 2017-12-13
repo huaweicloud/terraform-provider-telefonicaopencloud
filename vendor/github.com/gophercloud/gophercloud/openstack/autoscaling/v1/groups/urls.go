@@ -2,31 +2,33 @@ package groups
 
 import (
 	"github.com/gophercloud/gophercloud"
+	"log"
 )
 
 const resourcePath = "scaling_group"
-const apiVersion = "v1"
 
 func createURL(c *gophercloud.ServiceClient) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath)
+	ur := c.ServiceURL(c.ProjectID, resourcePath)
+	log.Printf("[DEBUG] Create URL is: %#v", ur)
+	return ur
 }
 
 func deleteURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id)
+	return c.ServiceURL(c.ProjectID, resourcePath, id)
 }
 
 func getURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id)
+	return c.ServiceURL(c.ProjectID, resourcePath, id)
 }
 
 func listURL(c *gophercloud.ServiceClient) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath)
+	return c.ServiceURL(c.ProjectID, resourcePath)
 }
 
 func enableURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id, "action")
+	return c.ServiceURL(c.ProjectID, resourcePath, id, "action")
 }
 
 func updateURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id)
+	return c.ServiceURL(c.ProjectID, resourcePath, id)
 }

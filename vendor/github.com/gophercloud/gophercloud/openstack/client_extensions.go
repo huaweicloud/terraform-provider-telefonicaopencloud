@@ -15,7 +15,7 @@ func NewRdsServiceV1(client *gophercloud.ProviderClient, eo gophercloud.Endpoint
 //NewAutoScalingService creates a ServiceClient that may be used to access the
 //auto-scaling service of huawei public cloud
 func NewAutoScalingService(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
-	sc, err := initClientOpts(client, eo, "autoscaling-api")
+	sc, err := initClientOpts(client, eo, "as")
 	return sc, err
 }
 

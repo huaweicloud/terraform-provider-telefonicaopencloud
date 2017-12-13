@@ -5,25 +5,24 @@ import (
 )
 
 const resourcePath = "scaling_policy"
-const apiVersion = "v1"
 
 //createURL will build the rest query url of creation
 //the create url is endpoint/scaling_policy
 func createURL(client *gophercloud.ServiceClient) string {
-	return client.ServiceURL(apiVersion, client.ProjectID, resourcePath)
+	return client.ServiceURL(client.ProjectID, resourcePath)
 }
 
 //deleteURL will build the url of deletion
 //its pattern is endpoint/scaling_policy/<policy-id>
 func deleteURL(client *gophercloud.ServiceClient, id string) string {
-	return client.ServiceURL(apiVersion, client.ProjectID, resourcePath, id)
+	return client.ServiceURL(client.ProjectID, resourcePath, id)
 }
 
 //getURL will build the get url of get function
 func getURL(client *gophercloud.ServiceClient, id string) string {
-	return client.ServiceURL(apiVersion, client.ProjectID, resourcePath, id)
+	return client.ServiceURL(client.ProjectID, resourcePath, id)
 }
 
 func updateURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id)
+	return c.ServiceURL(c.ProjectID, resourcePath, id)
 }
