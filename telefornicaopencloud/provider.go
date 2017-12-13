@@ -213,6 +213,7 @@ func Provider() terraform.ResourceProvider {
 			"telefornicaopencloud_as_group_v1":                     resourceASGroup(),
 			"telefornicaopencloud_as_configuration_v1":             resourceASConfiguration(),
 			"telefornicaopencloud_as_policy_v1":                    resourceASPolicy(),
+			"telefornicaopencloud_vpc_eip_v1":                      resourceVpcEIPV1(),
 		},
 
 		ConfigureFunc: configureProvider,
