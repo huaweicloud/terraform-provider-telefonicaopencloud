@@ -16,6 +16,7 @@ This provider plugin is maintained by:
 * zengchen ([@zengchen1024](https://github.com/zengchen1024))
 * Zhenguo Niu ([@niuzhenguo](https://github.com/niuzhenguo))
 * huangtianhua ([@h00130372](https://github.com/h00130372))
+* Chen Ying ([@chenyingkof](https://github.com/chenyingkof))
 
 Requirements
 ------------
@@ -66,10 +67,10 @@ $ terraform apply # Should all work if everything is correct.
 ## Quick Start
 
 ```hcl
-# Configure the OpenTelekomCloud Provider
+# Configure the TelefonicaOpenCloud Provider
 # This will work with a single defined/default network, otherwise you need to specify network
 # to fix errrors about multiple networks found.
-provider "opentelekomcloud" {
+provider "telefonicaopencloud" {
   user_name   = "user"
   tenant_name = "tenant"
   domain_name = "domain"
