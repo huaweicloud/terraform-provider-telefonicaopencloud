@@ -25,5 +25,5 @@ func getURL(client *gophercloud.ServiceClient, id string) string {
 }
 
 func updateURL(c *gophercloud.ServiceClient, id string) string {
-	return c.ServiceURL(apiVersion, client.ProjectID, resourcePath, id)
+	return c.ServiceURL(apiVersion, c.ProjectID, resourcePath, id)
 }
