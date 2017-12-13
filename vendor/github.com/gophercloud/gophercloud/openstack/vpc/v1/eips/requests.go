@@ -1,7 +1,6 @@
 package eips
 
 import (
-	"fmt"
 	"github.com/gophercloud/gophercloud"
 )
 
