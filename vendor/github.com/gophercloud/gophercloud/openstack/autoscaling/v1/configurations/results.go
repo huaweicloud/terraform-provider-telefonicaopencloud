@@ -38,17 +38,17 @@ type Configuration struct {
 }
 
 type InstanceConfig struct {
-	FlavorRef    string        `json:"flavorRef"`
-	ImageRef     string        `json:"imageRef"`
-	Disk         []Disk        `json:"disk"`
-	SSHKey       string        `json:"key_name"`
-	InstanceName string        `json:"instance_name"`
-	InstanceID   string        `json:"instance_id"`
-	AdminPass    string        `json:"adminPass"`
-	Personality  []Personality `json:"personality"`
-	PublicIp     PublicIp      `json:"public_ip"`
-	UserData     string        `json:"user_data"`
-	Metadata     string        `json:"metadata"`
+	FlavorRef    string                 `json:"flavorRef"`
+	ImageRef     string                 `json:"imageRef"`
+	Disk         []Disk                 `json:"disk"`
+	SSHKey       string                 `json:"key_name"`
+	InstanceName string                 `json:"instance_name"`
+	InstanceID   string                 `json:"instance_id"`
+	AdminPass    string                 `json:"adminPass"`
+	Personality  []Personality          `json:"personality"`
+	PublicIp     PublicIp               `json:"public_ip"`
+	UserData     string                 `json:"user_data"`
+	Metadata     map[string]interface{} `json:"metadata"`
 }
 
 type Disk struct {
