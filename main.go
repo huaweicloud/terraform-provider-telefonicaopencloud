@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/hashicorp/terraform/plugin"
-	"github.com/terraform-providers/terraform-provider-telefornicaopencloud/telefornicaopencloud"
+	"github.com/terraform-providers/terraform-provider-telefonicaopencloud/telefonicaopencloud"
 )
 
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: telefornicaopencloud.Provider})
+		ProviderFunc: telefonicaopencloud.Provider})
 }

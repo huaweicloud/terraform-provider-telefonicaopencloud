@@ -1,4 +1,4 @@
-package telefornicaopencloud
+package telefonicaopencloud
 
 import (
 	"encoding/json"
