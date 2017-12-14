@@ -39,13 +39,13 @@ func resourceELBBackendECS() *schema.Resource {
 				ForceNew: true,
 			},
 
-			"address": &schema.Schema{
+			"private_address": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
 
-			"server_address": &schema.Schema{
+			"public_address": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
