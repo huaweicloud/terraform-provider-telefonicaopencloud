@@ -341,6 +341,10 @@ func resourceELBListenerRead(d *schema.ResourceData, meta interface{}) error {
 	}
 	log.Printf("[DEBUG] Retrieved %s %s: %#v", nameELBListener, d.Id(), l)
 
+	sp := d.Get("ssl_protocols")
+	if l.SslProtocols == "" && sp != nil {
+		l.SslProtocols = sp.(string)
+	}
 	return refreshResourceData(l, d)
 }
 

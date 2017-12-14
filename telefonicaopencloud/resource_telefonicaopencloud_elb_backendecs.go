@@ -98,9 +98,10 @@ func resourceELBBackendECSCreate(d *schema.ResourceData, meta interface{}) error
 		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
 	}
 
-	createOpts := backendecs.CreateOpts{
-		ServerId: d.Get("server_id").(string),
-		Address:  d.Get("address").(string),
+	var createOpts backendecs.CreateOpts
+	err = buildELBCreateParam(&createOpts, d)
+	if err != nil {
+		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBBackend, err)
 	}
 	log.Printf("[DEBUG] Create %s Options: %#v", nameELBBackend, createOpts)
 
