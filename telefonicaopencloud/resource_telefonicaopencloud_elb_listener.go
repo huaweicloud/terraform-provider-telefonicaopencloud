@@ -44,6 +44,7 @@ func resourceELBListener() *schema.Resource {
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[^<>]{0,128}$")
@@ -136,11 +137,13 @@ func resourceELBListener() *schema.Resource {
 			"session_sticky": &schema.Schema{
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 
 			"sticky_session_type": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					if value != "insert" {
@@ -153,6 +156,7 @@ func resourceELBListener() *schema.Resource {
 			"cookie_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 1440 {
@@ -165,6 +169,7 @@ func resourceELBListener() *schema.Resource {
 			"tcp_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 5 {
@@ -177,11 +182,13 @@ func resourceELBListener() *schema.Resource {
 			"tcp_draining": &schema.Schema{
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 
 			"tcp_draining_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 0 || value > 60 {
@@ -194,17 +201,20 @@ func resourceELBListener() *schema.Resource {
 			"certificate_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"certificates": &schema.Schema{
 				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
 
 			"udp_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 1440 {
@@ -234,6 +244,7 @@ func resourceELBListener() *schema.Resource {
 			"ssl_ciphers": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					switch value {
@@ -249,32 +260,32 @@ func resourceELBListener() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"admin_state_up": &schema.Schema{
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 
 			"member_number": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 
 			"healthcheck_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -287,14 +298,18 @@ func resourceELBListenerCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
 	}
 
-	var createOpts listeners.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	var opts listeners.CreateOpts
+	err = buildELBCreateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBListener, err)
 	}
-	log.Printf("[DEBUG] Create %s Options: %#v", nameELBListener, createOpts)
+	log.Printf("[DEBUG] Create %s Options: %#v", nameELBListener, opts)
 
-	l, err := listeners.Create(networkingClient, createOpts).Extract()
+	switch {
+	case opts.Protocol == "HTTPS" || opts.Protocol == "SSL" && d.Get("certificate_id") == nil:
+		return fmt.Errorf("certificate_id is mandatory when protocol is set to HTTPS or SSL")
+	}
+	l, err := listeners.Create(networkingClient, opts).Extract()
 	if err != nil {
 		return fmt.Errorf("Error creating %s: %s", nameELBListener, err)
 	}
@@ -338,12 +353,12 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	lId := d.Id()
 
-	var updateOpts listeners.UpdateOpts
-	err = buildELBUpdateParam(&updateOpts, d)
+	var opts listeners.UpdateOpts
+	err = buildELBUpdateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error updating %s %s: building parameter failed:%s", nameELBListener, lId, err)
 	}
-	b, err := updateOpts.IsNeedUpdate()
+	b, err := opts.IsNeedUpdate()
 	if err != nil {
 		return err
 	}
@@ -351,7 +366,11 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 		log.Printf("[INFO] Updating %s %s with no changes", nameELBListener, lId)
 		return nil
 	}
-
+	protocol := d.Get("protocol").(string)
+	switch {
+	case protocol == "HTTPS" || protocol == "SSL" && d.Get("certificate_id") == nil:
+		return fmt.Errorf("certificate_id is mandatory when protocol is set to HTTPS or SSL")
+	}
 	// Wait for Listener to become active before continuing
 	timeout := d.Timeout(schema.TimeoutUpdate)
 	err = waitForELBListenerActive(networkingClient, lId, timeout)
@@ -359,9 +378,9 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	log.Printf("[DEBUG] Updating %s %s with options: %#v", nameELBListener, lId, updateOpts)
+	log.Printf("[DEBUG] Updating %s %s with options: %#v", nameELBListener, lId, opts)
 	err = resource.Retry(timeout, func() *resource.RetryError {
-		_, err := listeners.Update(networkingClient, lId, updateOpts).Extract()
+		_, err := listeners.Update(networkingClient, lId, opts).Extract()
 		if err != nil {
 			return checkForRetryableError(err)
 		}

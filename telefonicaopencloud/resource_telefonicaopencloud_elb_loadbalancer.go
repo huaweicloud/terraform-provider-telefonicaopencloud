@@ -45,6 +45,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[^<>]{0,128}$")
@@ -63,6 +64,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"bandwidth": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 300 {
@@ -92,6 +94,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"vip_subnet_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"az": &schema.Schema{
@@ -119,6 +122,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"security_group_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[a-zA-Z0-9-]{1,200}$")
@@ -132,6 +136,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"vip_address": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"tenantid": &schema.Schema{
@@ -141,17 +146,17 @@ func resourceELBLoadBalancer() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -164,14 +169,31 @@ func resourceELBLoadBalancerCreate(d *schema.ResourceData, meta interface{}) err
 		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
 	}
 
-	var createOpts loadbalancers.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	var opts loadbalancers.CreateOpts
+	err = buildELBCreateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBLB, err)
 	}
-	log.Printf("[DEBUG] Create %s Options: %#v", nameELBLB, createOpts)
+	log.Printf("[DEBUG] Create %s Options: %#v", nameELBLB, opts)
 
-	j, err := loadbalancers.Create(networkingClient, createOpts).Extract()
+	switch {
+	case opts.Type == "External" && d.Get("bandwidth") == nil:
+		return fmt.Errorf("bandwidth is mandatory when type is set to External")
+
+	case opts.Type == "Internal" && d.Get("vip_subnet_id") == nil:
+		return fmt.Errorf("vip_subnet_id is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("az") == nil:
+		return fmt.Errorf("az is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("security_group_id") == nil:
+		return fmt.Errorf("security_group_id is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("tenantid") == nil:
+		return fmt.Errorf("tenantid is mandatory when type is set to Internal")
+	}
+
+	j, err := loadbalancers.Create(networkingClient, opts).Extract()
 	if err != nil {
 		return fmt.Errorf("Error creating %s: %s", nameELBLB, err)
 	}
