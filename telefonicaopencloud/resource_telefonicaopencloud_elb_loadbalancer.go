@@ -169,14 +169,31 @@ func resourceELBLoadBalancerCreate(d *schema.ResourceData, meta interface{}) err
 		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
 	}
 
-	var createOpts loadbalancers.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	var opts loadbalancers.CreateOpts
+	err = buildELBCreateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBLB, err)
 	}
-	log.Printf("[DEBUG] Create %s Options: %#v", nameELBLB, createOpts)
+	log.Printf("[DEBUG] Create %s Options: %#v", nameELBLB, opts)
 
-	j, err := loadbalancers.Create(networkingClient, createOpts).Extract()
+	switch {
+	case opts.Type == "External" && d.Get("bandwidth") == nil:
+		return fmt.Errorf("bandwidth is mandatory when type is set to External")
+
+	case opts.Type == "Internal" && d.Get("vip_subnet_id") == nil:
+		return fmt.Errorf("vip_subnet_id is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("az") == nil:
+		return fmt.Errorf("az is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("security_group_id") == nil:
+		return fmt.Errorf("security_group_id is mandatory when type is set to Internal")
+
+	case opts.Type == "Internal" && d.Get("tenantid") == nil:
+		return fmt.Errorf("tenantid is mandatory when type is set to Internal")
+	}
+
+	j, err := loadbalancers.Create(networkingClient, opts).Extract()
 	if err != nil {
 		return fmt.Errorf("Error creating %s: %s", nameELBLB, err)
 	}

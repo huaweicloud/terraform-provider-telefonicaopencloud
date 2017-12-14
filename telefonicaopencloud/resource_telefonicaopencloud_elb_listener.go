@@ -299,14 +299,18 @@ func resourceELBListenerCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
 	}
 
-	var createOpts listeners.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	var opts listeners.CreateOpts
+	err = buildELBCreateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBListener, err)
 	}
-	log.Printf("[DEBUG] Create %s Options: %#v", nameELBListener, createOpts)
+	log.Printf("[DEBUG] Create %s Options: %#v", nameELBListener, opts)
 
-	l, err := listeners.Create(networkingClient, createOpts).Extract()
+	switch {
+	case opts.Protocol == "HTTPS" || opts.Protocol == "SSL" && d.Get("certificate_id") == nil:
+		return fmt.Errorf("certificate_id is mandatory when protocol is set to HTTPS or SSL")
+	}
+	l, err := listeners.Create(networkingClient, opts).Extract()
 	if err != nil {
 		return fmt.Errorf("Error creating %s: %s", nameELBListener, err)
 	}
@@ -350,12 +354,12 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	lId := d.Id()
 
-	var updateOpts listeners.UpdateOpts
-	err = buildELBUpdateParam(&updateOpts, d)
+	var opts listeners.UpdateOpts
+	err = buildELBUpdateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error updating %s %s: building parameter failed:%s", nameELBListener, lId, err)
 	}
-	b, err := updateOpts.IsNeedUpdate()
+	b, err := opts.IsNeedUpdate()
 	if err != nil {
 		return err
 	}
@@ -363,7 +367,11 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 		log.Printf("[INFO] Updating %s %s with no changes", nameELBListener, lId)
 		return nil
 	}
-
+	protocol := d.Get("protocol").(string)
+	switch {
+	case protocol == "HTTPS" || protocol == "SSL" && d.Get("certificate_id") == nil:
+		return fmt.Errorf("certificate_id is mandatory when protocol is set to HTTPS or SSL")
+	}
 	// Wait for Listener to become active before continuing
 	timeout := d.Timeout(schema.TimeoutUpdate)
 	err = waitForELBListenerActive(networkingClient, lId, timeout)
@@ -371,9 +379,9 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	log.Printf("[DEBUG] Updating %s %s with options: %#v", nameELBListener, lId, updateOpts)
+	log.Printf("[DEBUG] Updating %s %s with options: %#v", nameELBListener, lId, opts)
 	err = resource.Retry(timeout, func() *resource.RetryError {
-		_, err := listeners.Update(networkingClient, lId, updateOpts).Extract()
+		_, err := listeners.Update(networkingClient, lId, opts).Extract()
 		if err != nil {
 			return checkForRetryableError(err)
 		}
