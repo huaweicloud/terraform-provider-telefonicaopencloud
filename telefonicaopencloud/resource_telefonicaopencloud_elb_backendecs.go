@@ -47,44 +47,37 @@ func resourceELBBackendECS() *schema.Resource {
 
 			"server_address": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"health_status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"server_name": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 			},
 
 			"listeners": &schema.Schema{
 				Type:     schema.TypeList,
-				Optional: true,
-				ForceNew: true,
+				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"id": &schema.Schema{

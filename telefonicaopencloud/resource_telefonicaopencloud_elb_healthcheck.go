@@ -36,6 +36,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthcheck_protocol": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					switch value {
@@ -51,6 +52,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthcheck_uri": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^/[a-zA-Z0-9-/.%?#&_=]{0,79}$")
@@ -64,6 +66,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthcheck_connect_port": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 65535 {
@@ -76,6 +79,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthy_threshold": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 10 {
@@ -88,6 +92,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"unhealthy_threshold": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 10 {
@@ -100,6 +105,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthcheck_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 50 {
@@ -112,6 +118,7 @@ func resourceELBHealthCheck() *schema.Resource {
 			"healthcheck_interval": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 5 {
@@ -123,12 +130,12 @@ func resourceELBHealthCheck() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}

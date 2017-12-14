@@ -36,11 +36,13 @@ func resourceELBCertificate() *schema.Resource {
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"domain": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[A-Z0-9]+[a-zA-Z0-9-.]{0,253}$")
@@ -63,12 +65,12 @@ func resourceELBCertificate() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}

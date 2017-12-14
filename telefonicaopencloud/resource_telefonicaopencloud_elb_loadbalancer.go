@@ -45,6 +45,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[^<>]{0,128}$")
@@ -63,6 +64,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"bandwidth": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 300 {
@@ -92,6 +94,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"vip_subnet_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"az": &schema.Schema{
@@ -119,6 +122,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"security_group_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[a-zA-Z0-9-]{1,200}$")
@@ -132,6 +136,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"vip_address": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"tenantid": &schema.Schema{
@@ -141,17 +146,17 @@ func resourceELBLoadBalancer() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}

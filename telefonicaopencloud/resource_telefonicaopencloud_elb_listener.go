@@ -44,6 +44,7 @@ func resourceELBListener() *schema.Resource {
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					vv := regexp.MustCompile("^[^<>]{0,128}$")
@@ -136,11 +137,13 @@ func resourceELBListener() *schema.Resource {
 			"session_sticky": &schema.Schema{
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 
 			"sticky_session_type": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					if value != "insert" {
@@ -153,6 +156,7 @@ func resourceELBListener() *schema.Resource {
 			"cookie_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 1440 {
@@ -165,6 +169,7 @@ func resourceELBListener() *schema.Resource {
 			"tcp_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 5 {
@@ -177,11 +182,13 @@ func resourceELBListener() *schema.Resource {
 			"tcp_draining": &schema.Schema{
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 
 			"tcp_draining_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 0 || value > 60 {
@@ -194,17 +201,20 @@ func resourceELBListener() *schema.Resource {
 			"certificate_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 
 			"certificates": &schema.Schema{
 				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
 
 			"udp_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(int)
 					if value < 1 || value > 1440 {
@@ -217,6 +227,7 @@ func resourceELBListener() *schema.Resource {
 			"ssl_protocols": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					switch value {
@@ -234,6 +245,7 @@ func resourceELBListener() *schema.Resource {
 			"ssl_ciphers": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					switch value {
@@ -249,32 +261,32 @@ func resourceELBListener() *schema.Resource {
 
 			"update_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"create_time": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"status": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 
 			"admin_state_up": &schema.Schema{
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 
 			"member_number": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 
 			"healthcheck_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}
