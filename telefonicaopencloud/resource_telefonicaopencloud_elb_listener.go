@@ -227,7 +227,6 @@ func resourceELBListener() *schema.Resource {
 			"ssl_protocols": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 					value := v.(string)
 					switch value {
