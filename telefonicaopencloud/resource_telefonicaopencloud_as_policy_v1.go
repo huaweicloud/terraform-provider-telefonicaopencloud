@@ -259,6 +259,10 @@ func resourceASPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error creating TelefonicaOpenCloud autoscaling client: %s", err)
 	}
 
+	err = validateParameters(d)
+	if err != nil {
+		return fmt.Errorf("Error updating ASPolicy: %s", err)
+	}
 	updateOpts := policies.UpdateOpts{
 		Name:         d.Get("scaling_policy_name").(string),
 		Type:         d.Get("scaling_policy_type").(string),

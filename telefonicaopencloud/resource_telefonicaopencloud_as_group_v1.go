@@ -264,16 +264,19 @@ func getInstancesLifeStates(allIns []instances.Instance) []string {
 	return allLifeStates
 }
 
-func refreshInstancesLifeStates(asClient *gophercloud.ServiceClient, groupID string, checkInService bool) resource.StateRefreshFunc {
+func refreshInstancesLifeStates(asClient *gophercloud.ServiceClient, groupID string, insNum int, checkInService bool) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		var opts instances.ListOptsBuilder
 		allIns, err := getInstancesInGroup(asClient, groupID, opts)
 		if err != nil {
 			return nil, "ERROR", err
 		}
+		if checkInService && len(allIns) != insNum {
+			return allIns, "ERROR", fmt.Errorf("Error refreshing instance lifestatus for group %q, there is no instance in the group.", groupID)
+		}
 		allLifeStatus := getInstancesLifeStates(allIns)
 		for _, lifeStatus := range allLifeStatus {
-			log.Printf("[DEBUG] Get lifecycle status: %s", lifeStatus)
+			log.Printf("[DEBUG] Get lifecycle status in group %s: %s", groupID, lifeStatus)
 			// check for creation
 			if checkInService {
 				if lifeStatus == "PENDING" || lifeStatus == "REMOVING" {
@@ -290,16 +293,16 @@ func refreshInstancesLifeStates(asClient *gophercloud.ServiceClient, groupID str
 		if checkInService {
 			return allIns, "INSERVICE", err
 		}
-		log.Printf("[DEBUG] refreshInstancesLifeStates for %q!", groupID)
+		log.Printf("[DEBUG] Exit refreshInstancesLifeStates for %q!", groupID)
 		return allIns, "", err
 	}
 }
 
-func checkASGroupInstancesInService(asClient *gophercloud.ServiceClient, groupID string) error {
+func checkASGroupInstancesInService(asClient *gophercloud.ServiceClient, groupID string, insNum int) error {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{"PENDING"},
 		Target:  []string{"INSERVICE"}, //if there is no lifecyclestatus, meaning no instances in asg
-		Refresh: refreshInstancesLifeStates(asClient, groupID, true),
+		Refresh: refreshInstancesLifeStates(asClient, groupID, insNum, true),
 		Timeout: 600 * time.Second,
 		Delay:   10 * time.Second,
 	}
@@ -313,7 +316,7 @@ func checkASGroupInstancesRemoved(asClient *gophercloud.ServiceClient, groupID s
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{"REMOVING"},
 		Target:  []string{""}, //if there is no lifecyclestatus, meaning no instances in asg
-		Refresh: refreshInstancesLifeStates(asClient, groupID, false),
+		Refresh: refreshInstancesLifeStates(asClient, groupID, 0, false),
 		Timeout: 300 * time.Second,
 		Delay:   10 * time.Second,
 	}
@@ -331,18 +334,35 @@ func resourceASGroupCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 	log.Printf("[DEBUG] asClient: %#v", asClient)
 
+	minNum := d.Get("min_instance_number").(int)
+	maxNum := d.Get("max_instance_number").(int)
+	desireNum := d.Get("desire_instance_number").(int)
+	log.Printf("[DEBUG] Min instance number is: %#v", minNum)
+	log.Printf("[DEBUG] Max instance number is: %#v", maxNum)
+	log.Printf("[DEBUG] Desire instance number is: %#v", desireNum)
+	if desireNum < minNum || desireNum > maxNum {
+		return fmt.Errorf("Invalid parameters: it should be min_instance_number<=desire_instance_number<=max_instance_number")
+	}
+	var initNum int
+	if desireNum > 0 {
+		initNum = desireNum
+	} else {
+		initNum = minNum
+	}
+	log.Printf("[DEBUG] Init instance number is: %#v", initNum)
 	networks := getAllNetworks(d, meta)
 	asgNetworks := expandNetworks(networks)
 
 	secGroups := getAllSecurityGroups(d, meta)
 	asgSecGroups := expandGroups(secGroups)
+
 	log.Printf("[DEBUG] available_zones: %#v", d.Get("available_zones"))
 	createOpts := groups.CreateOpts{
 		Name:                 d.Get("scaling_group_name").(string),
 		ConfigurationID:      d.Get("scaling_configuration_id").(string),
-		DesireInstanceNumber: d.Get("desire_instance_number").(int),
-		MinInstanceNumber:    d.Get("min_instance_number").(int),
-		MaxInstanceNumber:    d.Get("max_instance_number").(int),
+		DesireInstanceNumber: desireNum,
+		MinInstanceNumber:    minNum,
+		MaxInstanceNumber:    maxNum,
 		CoolDownTime:         d.Get("cool_down_time").(int),
 		LBListenerID:         d.Get("lb_listener_id").(string),
 		AvailableZones:       getAllAvailableZones(d),
@@ -363,6 +383,7 @@ func resourceASGroupCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	d.SetId(asgId)
+
 	//enable asg
 	enableResult := groups.Enable(asClient, asgId)
 	if enableResult.Err != nil {
@@ -370,9 +391,11 @@ func resourceASGroupCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 	log.Printf("[DEBUG] Enable ASGroup %q success!", asgId)
 	// check all instances are inservice
-	err = checkASGroupInstancesInService(asClient, asgId)
-	if err != nil {
-		return fmt.Errorf("Error creating ASGroup: %s", err)
+	if initNum > 0 {
+		err = checkASGroupInstancesInService(asClient, asgId, initNum)
+		if err != nil {
+			return fmt.Errorf("Maybe the instances in ASGroup %q are not inservice!!: %s", asgId, err)
+		}
 	}
 
 	return resourceASGroupRead(d, meta)
@@ -420,6 +443,19 @@ func resourceASGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return fmt.Errorf("Error creating TelefonicaOpenCloud autoscaling client: %s", err)
 	}
+
+	if d.HasChange("min_instance_number") || d.HasChange("max_instance_number") || d.HasChange("desire_instance_number") {
+		minNum := d.Get("min_instance_number").(int)
+		maxNum := d.Get("max_instance_number").(int)
+		desireNum := d.Get("desire_instance_number").(int)
+		log.Printf("[DEBUG] Min instance number is: %#v", minNum)
+		log.Printf("[DEBUG] Max instance number is: %#v", maxNum)
+		log.Printf("[DEBUG] Desire instance number is: %#v", desireNum)
+		if desireNum < minNum || desireNum > maxNum {
+			return fmt.Errorf("Invalid parameters: it should be min_instance_number<=desire_instance_number<=max_instance_number")
+		}
+	}
+
 	networks := getAllNetworks(d, meta)
 	asgNetworks := expandNetworks(networks)
 
