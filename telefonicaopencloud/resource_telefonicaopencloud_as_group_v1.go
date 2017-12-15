@@ -443,7 +443,7 @@ func resourceASGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return fmt.Errorf("Error creating TelefonicaOpenCloud autoscaling client: %s", err)
 	}
-
+	d.Partial(true)
 	if d.HasChange("min_instance_number") || d.HasChange("max_instance_number") || d.HasChange("desire_instance_number") {
 		minNum := d.Get("min_instance_number").(int)
 		maxNum := d.Get("max_instance_number").(int)
@@ -454,6 +454,7 @@ func resourceASGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 		if desireNum < minNum || desireNum > maxNum {
 			return fmt.Errorf("Invalid parameters: it should be min_instance_number<=desire_instance_number<=max_instance_number")
 		}
+
 	}
 
 	networks := getAllNetworks(d, meta)
@@ -482,7 +483,7 @@ func resourceASGroupUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return fmt.Errorf("Error updating ASGroup %q: %s", asgID, err)
 	}
-
+	d.Partial(false)
 	return resourceASGroupRead(d, meta)
 }
 
