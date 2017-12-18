@@ -144,6 +144,13 @@ func resourceASGroup() *schema.Resource {
 				Default:     "no",
 				ForceNew:    false,
 			},
+			"instances": &schema.Schema{
+				Type:        schema.TypeList,
+				Optional:    true,
+				Elem:        &schema.Schema{Type: schema.TypeString},
+				ForceNew:    false,
+				Description: "The instances id list in the as group.",
+			},
 		},
 	}
 }
@@ -433,6 +440,14 @@ func resourceASGroupRead(d *schema.ResourceData, meta interface{}) error {
 	if len(asg.Notifications) >= 1 {
 		d.Set("notifications", asg.Notifications)
 	}
+
+	var opts instances.ListOptsBuilder
+	allIns, err := getInstancesInGroup(asClient, d.Id(), opts)
+	if err != nil {
+		return fmt.Errorf("Can not get the instances in ASGroup %q!!: %s", d.Id(), err)
+	}
+	allIDs := getInstancesIDs(allIns)
+	d.Set("instances", allIDs)
 
 	return nil
 }
