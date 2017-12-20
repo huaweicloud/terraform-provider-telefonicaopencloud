@@ -323,7 +323,7 @@ func bindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.Ser
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
-	if !ok {
+	if !ok || port_id == "" {
 		return nil
 	}
 
@@ -342,7 +342,7 @@ func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.S
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
-	if !ok {
+	if !ok || port_id == "" {
 		return nil
 	}
 
