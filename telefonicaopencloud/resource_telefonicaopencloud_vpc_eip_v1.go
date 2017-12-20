@@ -114,19 +114,17 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 
 	log.Printf("[DEBUG] Waiting for EIP %s to become available.", eIP)
 
-	stateConf := &resource.StateChangeConf{
-		Target:     []string{"ACTIVE"},
-		Refresh:    waitForEIPActive(vpcClient, eIP.ID),
-		Timeout:    d.Timeout(schema.TimeoutCreate),
-		Delay:      5 * time.Second,
-		MinTimeout: 3 * time.Second,
-	}
-
-	_, err = stateConf.WaitForState()
+	timeout := d.Timeout(schema.TimeoutCreate)
+	err = waitForEIPActive(vpcClient, eIP.ID, timeout)
 	if err != nil {
 		return fmt.Errorf(
 			"Error waiting for EIP (%s) to become ready: %s",
 			eIP.ID, err)
+	}
+
+	err = bindToPort(d, eIP.ID, vpcClient, timeout)
+	if err != nil {
+		return fmt.Errorf("Error binding eip:%s to port: %s", eIP.ID, err)
 	}
 
 	d.SetId(eIP.ID)
@@ -229,11 +227,17 @@ func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error creating VPC client: %s", err)
 	}
 
+	timeout := d.Timeout(schema.TimeoutDelete)
+	err = unbindToPort(d, d.Id(), vpcClient, timeout)
+	if err != nil {
+		return fmt.Errorf("Error unbinding eip:%s to port: %s", d.Id(), err)
+	}
+
 	stateConf := &resource.StateChangeConf{
 		Pending:    []string{"ACTIVE"},
 		Target:     []string{"DELETED"},
 		Refresh:    waitForEIPDelete(vpcClient, d.Id()),
-		Timeout:    d.Timeout(schema.TimeoutCreate),
+		Timeout:    timeout,
 		Delay:      5 * time.Second,
 		MinTimeout: 3 * time.Second,
 	}
@@ -248,7 +252,7 @@ func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-func waitForEIPActive(vpcClient *gophercloud.ServiceClient, eId string) resource.StateRefreshFunc {
+func getEIPStatus(vpcClient *gophercloud.ServiceClient, eId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		e, err := eips.Get(vpcClient, eId).Extract()
 		if err != nil {
@@ -313,4 +317,55 @@ func resourceBandWidth(d *schema.ResourceData) eips.BandwidthOpts {
 		ChargeMode: rawMap["charge_mode"].(string),
 	}
 	return bandwidth
+}
+
+func bindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.ServiceClient, timeout time.Duration) error {
+	publicIPRaw := d.Get("publicip").([]interface{})
+	rawMap := publicIPRaw[0].(map[string]interface{})
+	port_id, ok := rawMap["port_id"]
+	if !ok {
+		return nil
+	}
+
+	pd := port_id.(string)
+	log.Printf("[DEBUG] Bind eip:%s to port: %s", eipID, pd)
+
+	updateOpts := eips.UpdateOpts{PortID: pd}
+	_, err := eips.Update(vpcClient, eipID, updateOpts).Extract()
+	if err != nil {
+		return err
+	}
+	return waitForEIPActive(vpcClient, eipID, timeout)
+}
+
+func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.ServiceClient, timeout time.Duration) error {
+	publicIPRaw := d.Get("publicip").([]interface{})
+	rawMap := publicIPRaw[0].(map[string]interface{})
+	port_id, ok := rawMap["port_id"]
+	if !ok {
+		return nil
+	}
+
+	pd := port_id.(string)
+	log.Printf("[DEBUG] Unbind eip:%s to port: %s", eipID, pd)
+
+	updateOpts := eips.UpdateOpts{PortID: ""}
+	_, err := eips.Update(vpcClient, eipID, updateOpts).Extract()
+	if err != nil {
+		return err
+	}
+	return waitForEIPActive(vpcClient, eipID, timeout)
+}
+
+func waitForEIPActive(vpcClient *gophercloud.ServiceClient, eipID string, timeout time.Duration) error {
+	stateConf := &resource.StateChangeConf{
+		Target:     []string{"ACTIVE"},
+		Refresh:    getEIPStatus(vpcClient, eipID),
+		Timeout:    timeout,
+		Delay:      5 * time.Second,
+		MinTimeout: 3 * time.Second,
+	}
+
+	_, err := stateConf.WaitForState()
+	return err
 }
