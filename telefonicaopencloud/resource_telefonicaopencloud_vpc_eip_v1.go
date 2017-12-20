@@ -123,6 +123,11 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	_, err = stateConf.WaitForState()
+	if err != nil {
+		return fmt.Errorf(
+			"Error waiting for EIP (%s) to become ready: %s",
+			eIP.ID, err)
+	}
 
 	d.SetId(eIP.ID)
 
