@@ -44,6 +44,7 @@ resource "telefonicaopencloud_as_group_v1" "my_as_group_only_remove_members" {
   delete_publicip = true
   delete_instances = "no"
 }
+```
 
 ### Autoscaling Group With ELB Listener
 
