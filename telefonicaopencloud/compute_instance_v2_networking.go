@@ -427,6 +427,10 @@ func flattenInstanceNetworks(
 	for _, instanceNetwork := range allInstanceNetworks {
 		for _, instanceAddresses := range allInstanceAddresses {
 			if instanceNetwork.Name == instanceAddresses.NetworkName {
+				// It is possible that the address will be hidden and not be returned
+				if len(instanceAddresses.InstanceNICs) == 0 {
+					continue
+				}
 				// Only use one NIC since it's possible the user defined another NIC
 				// on this same network in another Terraform network block.
 				instanceNIC := instanceAddresses.InstanceNICs[0]
