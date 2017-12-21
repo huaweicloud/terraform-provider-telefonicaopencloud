@@ -66,14 +66,14 @@ resource "telefonicaopencloud_as_configuration_v1" "my_as_config" {
     key_name = "${var.keyname}"
   }
 }
-``
+```
 
 ## Argument Reference
 
 The following arguments are supported:
 
 * `scaling_configuration_name` - (Required) The name of the AS configuration. The name can contain letters,
-    digits, underscores(_), and hyphens(-),and cannot exceed 64 characters.
+    digits, underscores(_), and hyphens(-), and cannot exceed 64 characters.
 
 * `instance_config` - (Required) The information about instance configurations. The instance_config
     dictionary data structure is documented below.
