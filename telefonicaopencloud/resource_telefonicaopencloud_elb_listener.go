@@ -204,13 +204,6 @@ func resourceELBListener() *schema.Resource {
 				Computed: true,
 			},
 
-			"certificates": &schema.Schema{
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				Elem:     &schema.Schema{Type: schema.TypeString},
-			},
-
 			"udp_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,

@@ -17,25 +17,24 @@ type CreateOptsBuilder interface {
 // CreateOpts is the common options struct used in this package's Create
 // operation.
 type CreateOpts struct {
-	Name               string   `json:"name" required:"true"`
-	Description        string   `json:"description,omitempty"`
-	LoadbalancerID     string   `json:"loadbalancer_id" required:"true"`
-	Protocol           string   `json:"protocol" required:"true"`
-	Port               int      `json:"port" required:"true"`
-	BackendProtocol    string   `json:"backend_protocol" required:"true"`
-	BackendPort        int      `json:"backend_port" required:"true"`
-	LbAlgorithm        string   `json:"lb_algorithm" required:"true"`
-	SessionSticky      bool     `json:"session_sticky,omitempty"`
-	StickySessionType  string   `json:"sticky_session_type,omitempty"`
-	CookieTimeout      int      `json:"cookie_timeout,omitempty"`
-	TcpTimeout         int      `json:"tcp_timeout,omitempty"`
-	TcpDraining        bool     `json:"tcp_draining,omitempty"`
-	TcpDrainingTimeout int      `json:"tcp_draining_timeout,omitempty"`
-	CertificateID      string   `json:"certificate_id,omitempty"`
-	Certificates       []string `json:"certificates,omitempty"`
-	UdpTimeout         int      `json:"udp_timeout,omitempty"`
-	SslProtocols       string   `json:"ssl_protocols,omitempty"`
-	SslCiphers         string   `json:"ssl_ciphers,omitempty"`
+	Name               string `json:"name" required:"true"`
+	Description        string `json:"description,omitempty"`
+	LoadbalancerID     string `json:"loadbalancer_id" required:"true"`
+	Protocol           string `json:"protocol" required:"true"`
+	Port               int    `json:"port" required:"true"`
+	BackendProtocol    string `json:"backend_protocol" required:"true"`
+	BackendPort        int    `json:"backend_port" required:"true"`
+	LbAlgorithm        string `json:"lb_algorithm" required:"true"`
+	SessionSticky      bool   `json:"session_sticky,omitempty"`
+	StickySessionType  string `json:"sticky_session_type,omitempty"`
+	CookieTimeout      int    `json:"cookie_timeout,omitempty"`
+	TcpTimeout         int    `json:"tcp_timeout,omitempty"`
+	TcpDraining        bool   `json:"tcp_draining,omitempty"`
+	TcpDrainingTimeout int    `json:"tcp_draining_timeout,omitempty"`
+	CertificateID      string `json:"certificate_id,omitempty"`
+	UdpTimeout         int    `json:"udp_timeout,omitempty"`
+	SslProtocols       string `json:"ssl_protocols,omitempty"`
+	SslCiphers         string `json:"ssl_ciphers,omitempty"`
 }
 
 // ToListenerCreateMap casts a CreateOpts struct to a map.
@@ -79,19 +78,18 @@ type UpdateOptsBuilder interface {
 // UpdateOpts is the common options struct used in this package's Update
 // operation.
 type UpdateOpts struct {
-	Name               string   `json:"name,omitempty"`
-	Description        string   `json:"description,omitempty"`
-	Port               int      `json:"port,omitempty"`
-	BackendPort        int      `json:"backend_port,omitempty"`
-	LbAlgorithm        string   `json:"lb_algorithm,omitempty"`
-	TcpTimeout         int      `json:"tcp_timeout,omitempty"`
-	TcpDraining        bool     `json:"tcp_draining,omitempty"`
-	TcpDrainingTimeout int      `json:"tcp_draining_timeout,omitempty"`
-	UdpTimeout         int      `json:"udp_timeout,omitempty"`
-	SslProtocols       string   `json:"ssl_protocols,omitempty"`
-	SslCiphers         string   `json:"ssl_ciphers,omitempty"`
-	CertificateID      string   `json:"certificate_id,omitempty"`
-	Certificates       []string `json:"certificates,omitempty"`
+	Name               string `json:"name,omitempty"`
+	Description        string `json:"description,omitempty"`
+	Port               int    `json:"port,omitempty"`
+	BackendPort        int    `json:"backend_port,omitempty"`
+	LbAlgorithm        string `json:"lb_algorithm,omitempty"`
+	TcpTimeout         int    `json:"tcp_timeout,omitempty"`
+	TcpDraining        bool   `json:"tcp_draining,omitempty"`
+	TcpDrainingTimeout int    `json:"tcp_draining_timeout,omitempty"`
+	UdpTimeout         int    `json:"udp_timeout,omitempty"`
+	SslProtocols       string `json:"ssl_protocols,omitempty"`
+	SslCiphers         string `json:"ssl_ciphers,omitempty"`
+	CertificateID      string `json:"certificate_id,omitempty"`
 }
 
 func (u UpdateOpts) IsNeedUpdate() (bool, error) {
