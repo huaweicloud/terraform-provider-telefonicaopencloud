@@ -76,6 +76,10 @@ resource "telefonicaopencloud_as_policy_v1" "hth_aspolicy_2"{
 
 The following arguments are supported:
 
+* `region` - (Optional) The region in which to create the AS policy. If
+    omitted, the `region` argument of the provider is used. Changing this
+    creates a new AS policy.
+
 * `scaling_policy_name` - (Required) The name of the AS policy. The name can contain letters,
     digits, underscores(_), and hyphens(-),and cannot exceed 64 characters.
 
@@ -126,6 +130,7 @@ The `scaling_policy_action` block supports:
 
 The following attributes are exported:
 
+* `region` - See Argument Reference above.
 * `scaling_policy_name` - See Argument Reference above.
 * `scaling_policy_type` - See Argument Reference above.
 * `alarm_id` - See Argument Reference above.

@@ -19,6 +19,12 @@ func resourceASPolicy() *schema.Resource {
 		Delete: resourceASPolicyDelete,
 
 		Schema: map[string]*schema.Schema{
+			"region": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"scaling_policy_name": &schema.Schema{
 				Type:         schema.TypeString,
 				Required:     true,
@@ -249,6 +255,9 @@ func resourceASPolicyRead(d *schema.ResourceData, meta interface{}) error {
 	scheduledPolicies := []map[string]interface{}{}
 	scheduledPolicies = append(scheduledPolicies, scheduledPolicy)
 	d.Set("scheduled_policy", scheduledPolicies)
+
+	d.Set("region", GetRegion(d, config))
+
 	return nil
 }
 

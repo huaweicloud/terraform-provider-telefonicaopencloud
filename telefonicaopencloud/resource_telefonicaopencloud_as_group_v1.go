@@ -22,6 +22,12 @@ func resourceASGroup() *schema.Resource {
 		Delete: resourceASGroupDelete,
 
 		Schema: map[string]*schema.Schema{
+			"region": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"scaling_group_name": &schema.Schema{
 				Type:         schema.TypeString,
 				Required:     true,
@@ -448,6 +454,8 @@ func resourceASGroupRead(d *schema.ResourceData, meta interface{}) error {
 	}
 	allIDs := getInstancesIDs(allIns)
 	d.Set("instances", allIDs)
+
+	d.Set("region", GetRegion(d, config))
 
 	return nil
 }

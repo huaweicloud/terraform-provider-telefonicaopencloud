@@ -21,6 +21,12 @@ func resourceASConfiguration() *schema.Resource {
 		Delete: resourceASConfigurationDelete,
 
 		Schema: map[string]*schema.Schema{
+			"region": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"scaling_configuration_name": &schema.Schema{
 				Type:         schema.TypeString,
 				Required:     true,
