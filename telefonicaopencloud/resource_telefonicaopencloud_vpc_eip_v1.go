@@ -29,6 +29,12 @@ func resourceVpcEIPV1() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
+			"region": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"publicip": &schema.Schema{
 				Type:     schema.TypeList,
 				Required: true,
@@ -171,6 +177,7 @@ func resourceVpcEIPV1Read(d *schema.ResourceData, meta interface{}) error {
 		},
 	}
 	d.Set("bandwidth", bW)
+	d.Set("region", GetRegion(d, config))
 
 	return nil
 }
