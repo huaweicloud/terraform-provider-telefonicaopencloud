@@ -2,4 +2,4 @@
     name: huawei-clouds/terraform-provider-telefonicaopencloud
     check-telefonica:
       jobs:
-        - terraform-provider-telefonicaopencloud-acceptance-test
+        - terraform-provider-telefonicaopencloud-acceptance-test-telefonica
