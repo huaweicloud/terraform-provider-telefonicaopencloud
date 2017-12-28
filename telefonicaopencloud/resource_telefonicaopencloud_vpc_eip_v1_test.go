@@ -103,7 +103,6 @@ const testAccVpcV1EIP_basic = `
 resource "telefonicaopencloud_vpc_eip_v1" "eip_1" {
   publicip {
     type = "5_bgp"
-    ip_address = "200.29.32.228"
   }
   bandwidth {
     name = "test"
@@ -118,7 +117,6 @@ const testAccVpcV1EIP_timeout = `
 resource "telefonicaopencloud_vpc_eip_v1" "eip_1" {
   publicip {
     type = "5_bgp"
-    ip_address = "200.29.32.228"
   }
   bandwidth {
     name = "test"
