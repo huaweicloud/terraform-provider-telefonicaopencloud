@@ -341,12 +341,16 @@ func resourceASConfigurationDelete(d *schema.ResourceData, meta interface{}) err
 }
 
 func getASGroupsByConfiguration(asClient *gophercloud.ServiceClient, configurationID string) ([]groups.Group, error) {
+	var gs []groups.Group
 	listOpts := groups.ListOpts{
 		ConfigurationID: configurationID,
 	}
-	page, _ := groups.List(asClient, listOpts).AllPages()
-	groups, err := page.(groups.GroupPage).Extract()
-	return groups, err
+	page, err := groups.List(asClient, listOpts).AllPages()
+	if err != nil {
+		return gs, fmt.Errorf("Error getting ASGroups by configuration %q: %s", configurationID, err)
+	}
+	gs, err = page.(groups.GroupPage).Extract()
+	return gs, err
 }
 
 var BandWidthChargeMode = [1]string{"traffic"}
