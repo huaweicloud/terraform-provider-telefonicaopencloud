@@ -255,9 +255,13 @@ func getAllSecurityGroups(d *schema.ResourceData, meta interface{}) []Group {
 }
 
 func getInstancesInGroup(asClient *gophercloud.ServiceClient, groupID string, opts instances.ListOptsBuilder) ([]instances.Instance, error) {
-	page, _ := instances.List(asClient, groupID, opts).AllPages()
-	instances, err := page.(instances.InstancePage).Extract()
-	return instances, err
+	var insList []instances.Instance
+	page, err := instances.List(asClient, groupID, opts).AllPages()
+	if err != nil {
+		return insList, fmt.Errorf("Error getting instances in ASGroup %q: %s", groupID, err)
+	}
+	insList, err = page.(instances.InstancePage).Extract()
+	return insList, err
 }
 func getInstancesIDs(allIns []instances.Instance) []string {
 	var allIDs []string
