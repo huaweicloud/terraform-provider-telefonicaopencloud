@@ -284,8 +284,9 @@ func refreshInstancesLifeStates(asClient *gophercloud.ServiceClient, groupID str
 		if err != nil {
 			return nil, "ERROR", err
 		}
+		// maybe the instances (or some of the instances) have not put in the asg when creating
 		if checkInService && len(allIns) != insNum {
-			return allIns, "ERROR", fmt.Errorf("Error refreshing instance lifestatus for group %q, there is no instance in the group.", groupID)
+			return allIns, "PENDING", err
 		}
 		allLifeStatus := getInstancesLifeStates(allIns)
 		for _, lifeStatus := range allLifeStatus {
@@ -407,7 +408,7 @@ func resourceASGroupCreate(d *schema.ResourceData, meta interface{}) error {
 	if initNum > 0 {
 		err = checkASGroupInstancesInService(asClient, asgId, initNum)
 		if err != nil {
-			return fmt.Errorf("Maybe the instances in ASGroup %q are not inservice!!: %s", asgId, err)
+			return fmt.Errorf("Error waiting for instances in the ASGroup %q to become inservice!!: %s", asgId, err)
 		}
 	}
 
