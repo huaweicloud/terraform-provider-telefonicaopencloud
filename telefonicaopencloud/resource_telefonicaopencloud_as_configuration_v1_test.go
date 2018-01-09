@@ -93,7 +93,6 @@ resource "telefonicaopencloud_compute_keypair_v2" "hth_key" {
 resource "telefonicaopencloud_as_configuration_v1" "hth_as_config"{
   scaling_configuration_name = "hth_as_config"
   instance_config = {
-    flavor = "%s"
     image = "%s"
     disk = [
       {size = 40
@@ -103,4 +102,4 @@ resource "telefonicaopencloud_as_configuration_v1" "hth_as_config"{
     key_name = "${telefonicaopencloud_compute_keypair_v2.hth_key.id}"
   }
 }
-`, OS_FLAVOR_NAME, OS_IMAGE_ID)
+`, OS_IMAGE_ID)

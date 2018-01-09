@@ -10,6 +10,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack/autoscaling/v1/configurations"
 	"github.com/gophercloud/gophercloud/openstack/autoscaling/v1/groups"
 	"github.com/hashicorp/terraform/helper/schema"
+	"os"
 	"regexp"
 )
 
@@ -47,6 +48,7 @@ func resourceASConfiguration() *schema.Resource {
 						"flavor": &schema.Schema{
 							Type:     schema.TypeString,
 							Optional: true,
+							Default:  getDefaultFlavor(),
 						},
 						"image": &schema.Schema{
 							Type:     schema.TypeString,
@@ -168,6 +170,16 @@ func resourceASConfiguration() *schema.Resource {
 	}
 }
 
+func getDefaultFlavor() string {
+	flavorId := os.Getenv("OS_FLAVOR_ID")
+
+	if flavorId != "" {
+		return flavorId
+	}
+
+	flavorName := os.Getenv("OS_FLAVOR_NAME")
+	return flavorName
+}
 func getDisk(diskMeta []interface{}) ([]configurations.DiskOpts, error) {
 	var diskOptsList []configurations.DiskOpts
 
