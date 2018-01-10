@@ -75,8 +75,9 @@ provider "telefonicaopencloud" {
   tenant_name = "tenant"
   domain_name = "domain"
   password    = "pwd"
-  auth_url    = "https://iam.eu-de.otc.t-systems.com/v3"
-  region      = "eu-de"
+  # the auth url format follows: https://iam.{region_id}.telefonicaopencloud.com:443/v3
+  auth_url    = "https://iam.sa-chile-1.telefonicaopencloud.com:443/v3"
+  region      = "sa-chile-1"
 }
 
 # Create a web server
