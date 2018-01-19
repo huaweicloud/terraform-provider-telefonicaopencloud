@@ -96,7 +96,7 @@ The `instance_config` block supports:
 * `disk` - (Optional) The disk group information. System disks are mandatory and data disks are optional.
     The dick structure is described below.
 
-* `key_name` - (Optional) The name of the SSH key pair used to log in to the instance.
+* `key_name` - (Required) The name of the SSH key pair used to log in to the instance.
 
 * `user_data` - (Optional) The user data to provide when launching the instance.
     The file content must be encoded with Base64.
