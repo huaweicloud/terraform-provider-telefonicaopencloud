@@ -21,7 +21,7 @@ type CreateOpts struct {
 }
 
 type SchedulePolicyOpts struct {
-	LaunchTime      string `json:"launch_time" required:"true"`
+	LaunchTime      string `json:"launch_time,omitempty"`
 	RecurrenceType  string `json:"recurrence_type,omitempty"`
 	RecurrenceValue string `json:"recurrence_value,omitempty"`
 	StartTime       string `json:"start_time,omitempty"`
