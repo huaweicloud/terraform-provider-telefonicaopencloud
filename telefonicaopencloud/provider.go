@@ -167,7 +167,6 @@ func Provider() terraform.ResourceProvider {
 		ResourcesMap: map[string]*schema.Resource{
 			"telefonicaopencloud_blockstorage_volume_v1":          resourceBlockStorageVolumeV1(),
 			"telefonicaopencloud_blockstorage_volume_v2":          resourceBlockStorageVolumeV2(),
-			"telefonicaopencloud_blockstorage_volume_attach_v2":   resourceBlockStorageVolumeAttachV2(),
 			"telefonicaopencloud_compute_flavor_v2":               resourceComputeFlavorV2(),
 			"telefonicaopencloud_compute_instance_v2":             resourceComputeInstanceV2(),
 			"telefonicaopencloud_compute_keypair_v2":              resourceComputeKeypairV2(),

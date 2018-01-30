@@ -27,6 +27,7 @@ var (
 	OS_POOL_NAME              = os.Getenv("OS_POOL_NAME")
 	OS_REGION_NAME            = os.Getenv("OS_REGION_NAME")
 	OS_SWIFT_ENVIRONMENT      = os.Getenv("OS_SWIFT_ENVIRONMENT")
+	OS_AVAILABILITY_ZONE      = os.Getenv("OS_AVAILABILITY_ZONE")
 )
 
 var testAccProviders map[string]terraform.ResourceProvider

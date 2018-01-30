@@ -33,7 +33,7 @@ func TestAccComputeV2Instance_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_compute_instance_v2.instance_1", "all_metadata.foo", "bar"),
 					resource.TestCheckResourceAttr(
-						"telefonicaopencloud_compute_instance_v2.instance_1", "availability_zone", "nova"),
+						"telefonicaopencloud_compute_instance_v2.instance_1", "availability_zone", OS_AVAILABILITY_ZONE),
 				),
 			},
 		},
@@ -638,6 +638,7 @@ var testAccComputeV2Instance_basic = fmt.Sprintf(`
 resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   name = "instance_1"
   security_groups = ["default"]
+  availability_zone = "%s"
   metadata {
     foo = "bar"
   }
@@ -645,7 +646,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
     uuid = "%s"
   }
 }
-`, OS_NETWORK_ID)
+`, OS_AVAILABILITY_ZONE, OS_NETWORK_ID)
 
 var testAccComputeV2Instance_secgroupMulti = fmt.Sprintf(`
 resource "telefonicaopencloud_compute_secgroup_v2" "secgroup_1" {
