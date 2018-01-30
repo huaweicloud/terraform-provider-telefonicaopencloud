@@ -39,7 +39,7 @@ resource "telefonicaopencloud_elb_listener" "listener" {
 }
 
 resource "telefonicaopencloud_elb_backendecs" "backend" {
-  address = "192.168.0.211"
+  private_address = "192.168.0.211"
   listener_id = "${telefonicaopencloud_elb_listener.listener.id}"
   server_id = "8f7a32f1-f66c-4d13-9b17-3a13f9f0bb8d"
 }
