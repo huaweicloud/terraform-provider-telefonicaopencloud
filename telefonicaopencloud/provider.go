@@ -214,6 +214,7 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_as_configuration_v1":             resourceASConfiguration(),
 			"telefonicaopencloud_as_policy_v1":                    resourceASPolicy(),
 			"telefonicaopencloud_vpc_eip_v1":                      resourceVpcEIPV1(),
+			"telefonicaopencloud_ces_alarmrule":                   resourceAlarmRule(),
 		},
 
 		ConfigureFunc: configureProvider,
