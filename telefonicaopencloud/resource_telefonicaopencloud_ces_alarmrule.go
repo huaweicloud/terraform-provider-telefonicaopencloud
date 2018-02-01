@@ -3,7 +3,6 @@ package telefonicaopencloud
 import (
 	"fmt"
 	"log"
-	"regexp"
 	"time"
 
 	"github.com/gophercloud/gophercloud/openstack/cloudeyeservice/alarmrule"
