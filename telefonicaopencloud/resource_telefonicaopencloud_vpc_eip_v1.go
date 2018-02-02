@@ -121,7 +121,7 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error allocating EIP: %s", err)
 	}
 
-	log.Printf("[DEBUG] Waiting for EIP %s to become available.", eIP)
+	log.Printf("[DEBUG] Waiting for EIP %#v to become available.", eIP)
 
 	timeout := d.Timeout(schema.TimeoutCreate)
 	err = waitForEIPActive(vpcClient, eIP.ID, timeout)
