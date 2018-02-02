@@ -449,6 +449,6 @@ func NewCESClient(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpt
 	if err != nil {
 		return nil, err
 	}
-	sc.ResourceBase = sc.Endpoint + "/"
+	sc.ResourceBase = sc.Endpoint
 	return sc, err
 }
