@@ -452,3 +452,24 @@ func NewCESClient(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpt
 	sc.ResourceBase = sc.Endpoint
 	return sc, err
 }
+
+// NewSmnServiceV2 creates a ServiceClient that may be used to access the v2 Simple Message Notification service.
+func NewSmnServiceV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+
+	sc, err := initClientOpts(client, eo, "compute")
+	sc.Endpoint = strings.Replace(sc.Endpoint, "ecs", "smn", 1)
+	sc.ResourceBase = sc.Endpoint + "notifications/"
+	sc.Type = "smn"
+	return sc, err
+}
+
+//NewRdsServiceV1 creates the a ServiceClient that may be used to access the v1
+//rds service which is a service of db instances management.
+func NewRdsServiceV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+	newsc, err := initClientOpts(client, eo, "compute")
+	rdsendpoint := strings.Replace(strings.Replace(newsc.Endpoint, "ecs", "rds", 1), "/v2/", "/rds/v1/", 1)
+	newsc.Endpoint = rdsendpoint
+	newsc.ResourceBase = rdsendpoint
+	newsc.Type = "rds"
+	return newsc, err
+}

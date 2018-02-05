@@ -24,6 +24,7 @@ var (
 	OS_IMAGE_ID               = os.Getenv("OS_IMAGE_ID")
 	OS_IMAGE_NAME             = os.Getenv("OS_IMAGE_NAME")
 	OS_NETWORK_ID             = os.Getenv("OS_NETWORK_ID")
+	OS_VPC_ID                 = os.Getenv("OS_VPC_ID")
 	OS_POOL_NAME              = os.Getenv("OS_POOL_NAME")
 	OS_REGION_NAME            = os.Getenv("OS_REGION_NAME")
 	OS_SWIFT_ENVIRONMENT      = os.Getenv("OS_SWIFT_ENVIRONMENT")
@@ -60,6 +61,10 @@ func testAccPreCheckRequiredEnvVars(t *testing.T) {
 
 	if OS_NETWORK_ID == "" {
 		t.Fatal("OS_NETWORK_ID must be set for acceptance tests")
+	}
+
+	if OS_VPC_ID == "" {
+		t.Fatal("OS_VPC_ID must be set for acceptance tests")
 	}
 
 	if OS_EXTGW_ID == "" {
