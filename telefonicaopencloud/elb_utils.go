@@ -107,7 +107,7 @@ func chooseELBClient(d *schema.ResourceData, config *Config) (*gophercloud.Servi
 	return config.loadElasticLoadBalancerClient(GetRegion(d, config))
 }
 
-func chooseCESClient(d *schema.ResourceData, config *Config) (*gophercloud.ServiceClient1, error) {
+func chooseCESClient(d *schema.ResourceData, config *Config) (*gophercloud.ServiceClient, error) {
 	return config.loadCESClient(GetRegion(d, config))
 }
 

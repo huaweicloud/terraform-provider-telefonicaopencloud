@@ -444,8 +444,8 @@ func NewElasticLoadBalancer(client *gophercloud.ProviderClient, eo gophercloud.E
 	return sc, err
 }
 
-func NewCESClient(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient1, error) {
-	sc, err := initClientOpts1(client, eo, "ces")
+func NewCESClient(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+	sc, err := initClientOpts(client, eo, "ces")
 	if err != nil {
 		return nil, err
 	}
