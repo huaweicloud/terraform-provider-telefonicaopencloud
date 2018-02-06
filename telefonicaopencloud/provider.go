@@ -161,6 +161,7 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_networking_network_v2":  dataSourceNetworkingNetworkV2(),
 			"telefonicaopencloud_networking_subnet_v2":   dataSourceNetworkingSubnetV2(),
 			"telefonicaopencloud_networking_secgroup_v2": dataSourceNetworkingSecGroupV2(),
+			"telefonicaopencloud_rds_flavors_v1":         dataSourceRdsFlavorV1(),
 			"telefonicaopencloud_elb_quota":              dataResourceELBQuota(),
 		},
 
@@ -214,6 +215,9 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_as_policy_v1":                    resourceASPolicy(),
 			"telefonicaopencloud_vpc_eip_v1":                      resourceVpcEIPV1(),
 			"telefonicaopencloud_ces_alarmrule":                   resourceAlarmRule(),
+			"telefonicaopencloud_smn_topic_v2":                    resourceTopic(),
+			"telefonicaopencloud_smn_subscription_v2":             resourceSubscription(),
+			"telefonicaopencloud_rds_instance_v1":                 resourceRdsInstance(),
 		},
 
 		ConfigureFunc: configureProvider,
