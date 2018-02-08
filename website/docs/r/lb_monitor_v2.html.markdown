@@ -1,20 +1,20 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_lb_monitor_v2"
-sidebar_current: "docs-openstack-resource-lb-monitor-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_lb_monitor_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-lb-monitor-v2"
 description: |-
-  Manages a V2 monitor resource within OpenStack.
+  Manages a V2 monitor resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_lb\_monitor\_v2
+# telefonicaopencloud\_lb\_monitor\_v2
 
-Manages a V2 monitor resource within OpenStack.
+Manages a V2 monitor resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_lb_monitor_v2" "monitor_1" {
-  pool_id     = "${openstack_lb_pool_v2.pool_1.id}"
+resource "telefonicaopencloud_lb_monitor_v2" "monitor_1" {
+  pool_id     = "${telefonicaopencloud_lb_pool_v2.pool_1.id}"
   type        = "PING"
   delay       = 20
   timeout     = 10

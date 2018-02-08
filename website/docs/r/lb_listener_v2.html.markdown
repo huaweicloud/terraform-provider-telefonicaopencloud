@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_lb_listener_v2"
-sidebar_current: "docs-openstack-resource-lb-listener-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_lb_listener_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-lb-listener-v2"
 description: |-
-  Manages a V2 listener resource within OpenStack.
+  Manages a V2 listener resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_lb\_listener\_v2
+# telefonicaopencloud\_lb\_listener\_v2
 
-Manages a V2 listener resource within OpenStack.
+Manages a V2 listener resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_lb_listener_v2" "listener_1" {
+resource "telefonicaopencloud_lb_listener_v2" "listener_1" {
   protocol        = "HTTP"
   protocol_port   = 8080
   loadbalancer_id = "d9415786-5f1a-428b-b35f-2f1523e146d2"
@@ -56,12 +56,12 @@ The following arguments are supported:
 * `default_tls_container_ref` - (Optional) A reference to a Barbican Secrets
     container which stores TLS information. This is required if the protocol
     is `TERMINATED_HTTPS`. See
-    [here](https://wiki.openstack.org/wiki/Network/LBaaS/docs/how-to-create-tls-loadbalancer)
+    [here](https://wiki.telefonicaopencloud.org/wiki/Network/LBaaS/docs/how-to-create-tls-loadbalancer)
     for more information.
 
 * `sni_container_refs` - (Optional) A list of references to Barbican Secrets
     containers which store SNI information. See
-    [here](https://wiki.openstack.org/wiki/Network/LBaaS/docs/how-to-create-tls-loadbalancer)
+    [here](https://wiki.telefonicaopencloud.org/wiki/Network/LBaaS/docs/how-to-create-tls-loadbalancer)
     for more information.
 
 * `admin_state_up` - (Optional) The administrative state of the Listener.

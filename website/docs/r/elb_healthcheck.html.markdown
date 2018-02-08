@@ -1,6 +1,6 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_elb_healthcheck"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_elb_healthcheck"
 sidebar_current: "docs-telefonicaopencloud-resource-elb-healthcheck"
 description: |-
   Manages an elastic loadbalancer healthcheck resource within telefonica open cloud.

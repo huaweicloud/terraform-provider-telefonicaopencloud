@@ -1,14 +1,14 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_as_configuration_v1"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_as_configuration_v1"
 sidebar_current: "docs-telefonicaopencloud-resource-as-configuration-v1"
 description: |-
-  Manages a V1 AS Configuration resource within Telefonicaopencloud.
+  Manages a V1 AS Configuration resource within TelefonicaOpenCloud.
 ---
 
 # telefonicaopencloud\_as\_configuration_v1
 
-Manages a V1 AS Configuration resource within Telefonicaopencloud.
+Manages a V1 AS Configuration resource within TelefonicaOpenCloud.
 
 ## Example Usage
 

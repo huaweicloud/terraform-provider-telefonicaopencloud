@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_dns_zone_v2"
-sidebar_current: "docs-openstack-datasource-dns-zone-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_dns_zone_v2"
+sidebar_current: "docs-telefonicaopencloud-datasource-dns-zone-v2"
 description: |-
-  Get information on an OpenStack DNS Zone.
+  Get information on an TelefonicaOpenCloud DNS Zone.
 ---
 
-# openstack\_dns\_zone\_v2
+# telefonicaopencloud\_dns\_zone\_v2
 
-Use this data source to get the ID of an available OpenStack DNS zone.
+Use this data source to get the ID of an available TelefonicaOpenCloud DNS zone.
 
 ## Example Usage
 
 ```hcl
-data "openstack_dns_zone_v2" "zone_1" {
+data "telefonicaopencloud_dns_zone_v2" "zone_1" {
   name = "example.com"
 }
 ```

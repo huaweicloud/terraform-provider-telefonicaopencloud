@@ -1,21 +1,21 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_db_instance_v1"
-sidebar_current: "docs-openstack-resource-db-instance-v1"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_db_instance_v1"
+sidebar_current: "docs-telefonicaopencloud-resource-db-instance-v1"
 description: |-
-  Manages a V1 DB instance resource within OpenStack.
+  Manages a V1 DB instance resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_db\_instance_v1
+# telefonicaopencloud\_db\_instance_v1
 
-Manages a V1 DB instance resource within OpenStack.
+Manages a V1 DB instance resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ### Instance
 
 ```hcl
-resource "openstack_db_instance_v1" "test" {
+resource "telefonicaopencloud_db_instance_v1" "test" {
   region    = "region-test"
   name      = "test"
   flavor_id = "31792d21-c355-4587-9290-56c1ed0ca376"

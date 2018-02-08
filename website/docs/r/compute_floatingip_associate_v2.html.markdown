@@ -1,22 +1,22 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_compute_floatingip_associate_v2"
-sidebar_current: "docs-openstack-resource-compute-floatingip-associate-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_compute_floatingip_associate_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-compute-floatingip-associate-v2"
 description: |-
   Associate a floating IP to an instance
 ---
 
-# openstack\_compute\_floatingip_associate_v2
+# telefonicaopencloud\_compute\_floatingip_associate_v2
 
 Associate a floating IP to an instance. This can be used instead of the
-`floating_ip` options in `openstack_compute_instance_v2`.
+`floating_ip` options in `telefonicaopencloud_compute_instance_v2`.
 
 ## Example Usage
 
 ### Automatically detect the correct network
 
 ```hcl
-resource "openstack_compute_instance_v2" "instance_1" {
+resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   name            = "instance_1"
   image_id        = "ad091b52-742f-469e-8f3c-fd81cadf0743"
   flavor_id       = 3
@@ -24,20 +24,20 @@ resource "openstack_compute_instance_v2" "instance_1" {
   security_groups = ["default"]
 }
 
-resource "openstack_networking_floatingip_v2" "fip_1" {
+resource "telefonicaopencloud_networking_floatingip_v2" "fip_1" {
   pool = "my_pool"
 }
 
-resource "openstack_compute_floatingip_associate_v2" "fip_1" {
-  floating_ip = "${openstack_networking_floatingip_v2.fip_1.address}"
-  instance_id = "${openstack_compute_instance_v2.instance_1.id}"
+resource "telefonicaopencloud_compute_floatingip_associate_v2" "fip_1" {
+  floating_ip = "${telefonicaopencloud_networking_floatingip_v2.fip_1.address}"
+  instance_id = "${telefonicaopencloud_compute_instance_v2.instance_1.id}"
 }
 ```
 
 ### Explicitly set the network to attach to
 
 ```hcl
-resource "openstack_compute_instance_v2" "instance_1" {
+resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   name            = "instance_1"
   image_id        = "ad091b52-742f-469e-8f3c-fd81cadf0743"
   flavor_id       = 3
@@ -53,14 +53,14 @@ resource "openstack_compute_instance_v2" "instance_1" {
   }
 }
 
-resource "openstack_networking_floatingip_v2" "fip_1" {
+resource "telefonicaopencloud_networking_floatingip_v2" "fip_1" {
   pool = "my_pool"
 }
 
-resource "openstack_compute_floatingip_associate_v2" "fip_1" {
-  floating_ip = "${openstack_networking_floatingip_v2.fip_1.address}"
-  instance_id = "${openstack_compute_instance_v2.instance_1.id}"
-  fixed_ip    = "${openstack_compute_instance_v2.instance_1.network.1.fixed_ip_v4}"
+resource "telefonicaopencloud_compute_floatingip_associate_v2" "fip_1" {
+  floating_ip = "${telefonicaopencloud_networking_floatingip_v2.fip_1.address}"
+  instance_id = "${telefonicaopencloud_compute_instance_v2.instance_1.id}"
+  fixed_ip    = "${telefonicaopencloud_compute_instance_v2.instance_1.network.1.fixed_ip_v4}"
 }
 ```
 
@@ -94,5 +94,5 @@ This resource can be imported by specifying all three arguments, separated
 by a forward slash:
 
 ```
-$ terraform import openstack_compute_floatingip_associate_v2.fip_1 <floating_ip>/<instance_id>/<fixed_ip>
+$ terraform import telefonicaopencloud_compute_floatingip_associate_v2.fip_1 <floating_ip>/<instance_id>/<fixed_ip>
 ```

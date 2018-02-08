@@ -1,21 +1,21 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_images_image_v2"
-sidebar_current: "docs-openstack-resource-images-image-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_images_image_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-images-image-v2"
 description: |-
-  Manages a V2 Image resource within OpenStack Glance.
+  Manages a V2 Image resource within TelefonicaOpenCloud Glance.
 ---
 
-# openstack\_images\_image_v2
+# telefonicaopencloud\_images\_image_v2
 
-Manages a V2 Image resource within OpenStack Glance.
+Manages a V2 Image resource within TelefonicaOpenCloud Glance.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_images_image_v2" "rancheros" {
+resource "telefonicaopencloud_images_image_v2" "rancheros" {
   name   = "RancherOS"
-  image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
+  image_source_url = "https://releases.rancher.com/os/latest/rancheros-telefonicaopencloud.img"
   container_format = "bare"
   disk_format = "qcow2"
 
@@ -72,7 +72,7 @@ The following arguments are supported:
 
 * `visibility` - (Optional) The visibility of the image. Must be one of
    "public", "private", "community", or "shared". The ability to set the
-   visibility depends upon the configuration of the OpenStack cloud.
+   visibility depends upon the configuration of the TelefonicaOpenCloud cloud.
 
 ## Attributes Reference
 
@@ -88,11 +88,11 @@ The following attributes are exported:
 * `id` - A unique ID assigned by Glance.
 * `metadata` - The metadata associated with the image.
    Image metadata allow for meaningfully define the image properties
-   and tags. See http://docs.openstack.org/developer/glance/metadefs-concepts.html.
+   and tags. See http://docs.telefonicaopencloud.org/developer/glance/metadefs-concepts.html.
 * `min_disk_gb` - See Argument Reference above.
 * `min_ram_mb` - See Argument Reference above.
 * `name` - See Argument Reference above.
-* `owner` - The id of the openstack user who owns the image.
+* `owner` - The id of the telefonicaopencloud user who owns the image.
 * `properties` - See Argument Reference above.
 * `protected` - See Argument Reference above.
 * `region` - See Argument Reference above.
@@ -110,5 +110,5 @@ The following attributes are exported:
 Images can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_images_image_v2.rancheros 89c60255-9bd6-460c-822a-e2b959ede9d2
+$ terraform import telefonicaopencloud_images_image_v2.rancheros 89c60255-9bd6-460c-822a-e2b959ede9d2
 ```

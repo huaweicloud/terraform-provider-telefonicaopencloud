@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_networking_router_v2"
-sidebar_current: "docs-openstack-resource-networking-router-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_networking_router_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-networking-router-v2"
 description: |-
-  Manages a V2 router resource within OpenStack.
+  Manages a V2 router resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_networking\_router_v2
+# telefonicaopencloud\_networking\_router_v2
 
-Manages a V2 router resource within OpenStack.
+Manages a V2 router resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_networking_router_v2" "router_1" {
+resource "telefonicaopencloud_networking_router_v2" "router_1" {
   name                = "my_router"
   admin_state_up      = true
   external_network_id = "f67f0d72-0ddf-11e4-9d95-e1f29f417e2f"
@@ -91,5 +91,5 @@ The following attributes are exported:
 Routers can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_networking_router_v2.router_1 014395cd-89fc-4c9b-96b7-13d1ee79dad2
+$ terraform import telefonicaopencloud_networking_router_v2.router_1 014395cd-89fc-4c9b-96b7-13d1ee79dad2
 ```

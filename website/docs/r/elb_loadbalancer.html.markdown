@@ -1,6 +1,6 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_elb_loadbalancer"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_elb_loadbalancer"
 sidebar_current: "docs-telefonicaopencloud-resource-elb-loadbalancer"
 description: |-
   Manages an elastic loadbalancer resource within telefonica open cloud.

@@ -1,6 +1,6 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_rds_instance_v1"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_rds_instance_v1"
 sidebar_current: "docs-telefonicaopencloud-resource-rds-instance-v1"
 description: |-
   Manages rds instance resource within TelefonicaopenCloud

@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_objectstorage_container_v1"
-sidebar_current: "docs-openstack-resource-objectstorage-container-v1"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_objectstorage_container_v1"
+sidebar_current: "docs-telefonicaopencloud-resource-objectstorage-container-v1"
 description: |-
-  Manages a V1 container resource within OpenStack.
+  Manages a V1 container resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_objectstorage\_container_v1
+# telefonicaopencloud\_objectstorage\_container_v1
 
-Manages a V1 container resource within OpenStack.
+Manages a V1 container resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_objectstorage_container_v1" "container_1" {
+resource "telefonicaopencloud_objectstorage_container_v1" "container_1" {
   region = "RegionOne"
   name   = "tf-test-container-1"
 

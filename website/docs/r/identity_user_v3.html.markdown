@@ -1,27 +1,27 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_identity_user_v3"
-sidebar_current: "docs-openstack-resource-identity-user-v3"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_identity_user_v3"
+sidebar_current: "docs-telefonicaopencloud-resource-identity-user-v3"
 description: |-
-  Manages a V3 User resource within OpenStack Keystone.
+  Manages a V3 User resource within TelefonicaOpenCloud Keystone.
 ---
 
-# openstack\_identity\_user_v3
+# telefonicaopencloud\_identity\_user_v3
 
-Manages a V3 User resource within OpenStack Keystone.
+Manages a V3 User resource within TelefonicaOpenCloud Keystone.
 
-Note: You _must_ have admin privileges in your OpenStack cloud to use
+Note: You _must_ have admin privileges in your TelefonicaOpenCloud cloud to use
 this resource.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_identity_project_v3" "project_1" {
+resource "telefonicaopencloud_identity_project_v3" "project_1" {
   name = "project_1"
 }
 
-resource "openstack_identity_user_v3" "user_1" {
-  default_project_id = "${openstack_identity_project_v3.project_1.id}"
+resource "telefonicaopencloud_identity_user_v3" "user_1" {
+  default_project_id = "${telefonicaopencloud_identity_project_v3.project_1.id}"
   name = "user_1"
   description = "A user"
 
@@ -74,7 +74,7 @@ The following arguments are supported:
 
 * `multi_factor_auth_rule` - (Optional) A multi-factor authentication rule.
   The structure is documented below. Please see the
-  [Ocata release notes](https://docs.openstack.org/releasenotes/keystone/ocata.html)
+  [Ocata release notes](https://docs.telefonicaopencloud.org/releasenotes/keystone/ocata.html)
   for more information on how to use mulit-factor rules.
 
 * `name` - (Optional) The name of the user.
@@ -101,5 +101,5 @@ The following attributes are exported:
 Users can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_identity_user_v3.user_1 89c60255-9bd6-460c-822a-e2b959ede9d2
+$ terraform import telefonicaopencloud_identity_user_v3.user_1 89c60255-9bd6-460c-822a-e2b959ede9d2
 ```

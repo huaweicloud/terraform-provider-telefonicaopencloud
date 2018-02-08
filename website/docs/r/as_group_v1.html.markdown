@@ -1,14 +1,14 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_as_group_v1"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_as_group_v1"
 sidebar_current: "docs-telefonicaopencloud-resource-as-group-v1"
 description: |-
-  Manages a V1 Autoscaling Group resource within Telefonicaopencloud.
+  Manages a V1 Autoscaling Group resource within TelefonicaOpenCloud.
 ---
 
 # telefonicaopencloud\_as\_group_v1
 
-Manages a V1 Autoscaling Group resource within Telefonicaopencloud.
+Manages a V1 Autoscaling Group resource within TelefonicaOpenCloud.
 
 ## Example Usage
 

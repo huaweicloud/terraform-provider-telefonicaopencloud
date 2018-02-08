@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_fw_policy_v1"
-sidebar_current: "docs-openstack-resource-fw-policy-v1"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_fw_policy_v1"
+sidebar_current: "docs-telefonicaopencloud-resource-fw-policy-v1"
 description: |-
-  Manages a v1 firewall policy resource within OpenStack.
+  Manages a v1 firewall policy resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_fw\_policy_v1
+# telefonicaopencloud\_fw\_policy_v1
 
-Manages a v1 firewall policy resource within OpenStack.
+Manages a v1 firewall policy resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_fw_rule_v1" "rule_1" {
+resource "telefonicaopencloud_fw_rule_v1" "rule_1" {
   name             = "my-rule-1"
   description      = "drop TELNET traffic"
   action           = "deny"
@@ -22,7 +22,7 @@ resource "openstack_fw_rule_v1" "rule_1" {
   enabled          = "true"
 }
 
-resource "openstack_fw_rule_v1" "rule_2" {
+resource "telefonicaopencloud_fw_rule_v1" "rule_2" {
   name             = "my-rule-2"
   description      = "drop NTP traffic"
   action           = "deny"
@@ -31,11 +31,11 @@ resource "openstack_fw_rule_v1" "rule_2" {
   enabled          = "false"
 }
 
-resource "openstack_fw_policy_v1" "policy_1" {
+resource "telefonicaopencloud_fw_policy_v1" "policy_1" {
   name = "my-policy"
 
-  rules = ["${openstack_fw_rule_v1.rule_1.id}",
-    "${openstack_fw_rule_v1.rule_2.id}",
+  rules = ["${telefonicaopencloud_fw_rule_v1.rule_1.id}",
+    "${telefonicaopencloud_fw_rule_v1.rule_2.id}",
   ]
 }
 ```
@@ -88,5 +88,5 @@ The following attributes are exported:
 Firewall Policies can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_fw_policy_v1.policy_1 07f422e6-c596-474b-8b94-fe2c12506ce0
+$ terraform import telefonicaopencloud_fw_policy_v1.policy_1 07f422e6-c596-474b-8b94-fe2c12506ce0
 ```

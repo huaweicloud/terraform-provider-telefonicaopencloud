@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_lb_member_v2"
-sidebar_current: "docs-openstack-resource-lb-member-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_lb_member_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-lb-member-v2"
 description: |-
-  Manages a V2 member resource within OpenStack.
+  Manages a V2 member resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_lb\_member\_v2
+# telefonicaopencloud\_lb\_member\_v2
 
-Manages a V2 member resource within OpenStack.
+Manages a V2 member resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_lb_member_v2" "member_1" {
+resource "telefonicaopencloud_lb_member_v2" "member_1" {
   address       = "192.168.199.23"
   protocol_port = 8080
 }

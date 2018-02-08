@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_networking_secgroup_v2"
-sidebar_current: "docs-openstack-datasource-networking-secgroup-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_networking_secgroup_v2"
+sidebar_current: "docs-telefonicaopencloud-datasource-networking-secgroup-v2"
 description: |-
-  Get information on an OpenStack Security Group.
+  Get information on an TelefonicaOpenCloud Security Group.
 ---
 
-# openstack\_networking\_secgroup\_v2
+# telefonicaopencloud\_networking\_secgroup\_v2
 
-Use this data source to get the ID of an available OpenStack security group.
+Use this data source to get the ID of an available TelefonicaOpenCloud security group.
 
 ## Example Usage
 
 ```hcl
-data "openstack_networking_secgroup_v2" "secgroup" {
+data "telefonicaopencloud_networking_secgroup_v2" "secgroup" {
   name = "tf_test_secgroup"
 }
 ```

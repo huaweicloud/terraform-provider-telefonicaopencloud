@@ -1,25 +1,25 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_compute_floatingip_v2"
-sidebar_current: "docs-openstack-resource-compute-floatingip-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_compute_floatingip_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-compute-floatingip-v2"
 description: |-
-  Manages a V2 floating IP resource within OpenStack Nova (compute).
+  Manages a V2 floating IP resource within TelefonicaOpenCloud Nova (compute).
 ---
 
-# openstack\_compute\_floatingip_v2
+# telefonicaopencloud\_compute\_floatingip_v2
 
-Manages a V2 floating IP resource within OpenStack Nova (compute)
+Manages a V2 floating IP resource within TelefonicaOpenCloud Nova (compute)
 that can be used for compute instances.
 
-Please note that managing floating IPs through the OpenStack Compute API has
-been deprecated. Unless you are using an older OpenStack environment, it is
-recommended to use the [`openstack_networking_floatingip_v2`](networking_floatingip_v2.html)
-resource instead, which uses the OpenStack Networking API.
+Please note that managing floating IPs through the TelefonicaOpenCloud Compute API has
+been deprecated. Unless you are using an older TelefonicaOpenCloud environment, it is
+recommended to use the [`telefonicaopencloud_networking_floatingip_v2`](networking_floatingip_v2.html)
+resource instead, which uses the TelefonicaOpenCloud Networking API.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_compute_floatingip_v2" "floatip_1" {
+resource "telefonicaopencloud_compute_floatingip_v2" "floatip_1" {
   pool = "public"
 }
 ```
@@ -52,5 +52,5 @@ The following attributes are exported:
 Floating IPs can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_compute_floatingip_v2.floatip_1 89c60255-9bd6-460c-822a-e2b959ede9d2
+$ terraform import telefonicaopencloud_compute_floatingip_v2.floatip_1 89c60255-9bd6-460c-822a-e2b959ede9d2
 ```

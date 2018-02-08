@@ -1,14 +1,14 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_as_policy_v1"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_as_policy_v1"
 sidebar_current: "docs-telefonicaopencloud-resource-as-policy-v1"
 description: |-
-  Manages a V1 AS Policy resource within Telefonicaopencloud.
+  Manages a V1 AS Policy resource within TelefonicaOpenCloud.
 ---
 
 # telefonicaopencloud\_as\_policy_v1
 
-Manages a V1 AS Policy resource within Telefonicaopencloud.
+Manages a V1 AS Policy resource within TelefonicaOpenCloud.
 
 ## Example Usage
 

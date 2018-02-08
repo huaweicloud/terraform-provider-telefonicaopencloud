@@ -1,19 +1,19 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_lb_monitor_v1"
-sidebar_current: "docs-openstack-resource-lb-monitor-v1"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_lb_monitor_v1"
+sidebar_current: "docs-telefonicaopencloud-resource-lb-monitor-v1"
 description: |-
-  Manages a V1 load balancer monitor resource within OpenStack.
+  Manages a V1 load balancer monitor resource within TelefonicaOpenCloud.
 ---
 
-# openstack\_lb\_monitor_v1
+# telefonicaopencloud\_lb\_monitor_v1
 
-Manages a V1 load balancer monitor resource within OpenStack.
+Manages a V1 load balancer monitor resource within TelefonicaOpenCloud.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_lb_monitor_v1" "monitor_1" {
+resource "telefonicaopencloud_lb_monitor_v1" "monitor_1" {
   type           = "PING"
   delay          = 30
   timeout        = 5
@@ -86,5 +86,5 @@ The following attributes are exported:
 Load Balancer Members can be imported using the `id`, e.g.
 
 ```
-$ terraform import openstack_lb_monitor_v1.monitor_1 119d7530-72e9-449a-aa97-124a5ef1992c
+$ terraform import telefonicaopencloud_lb_monitor_v1.monitor_1 119d7530-72e9-449a-aa97-124a5ef1992c
 ```

@@ -1,6 +1,6 @@
 ---
 layout: "telefonicaopencloud"
-page_title: "OpenStack: telefonicaopencloud_elb_backendecs"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_elb_backendecs"
 sidebar_current: "docs-telefonicaopencloud-resource-elb-backendecs"
 description: |-
   Manages an elastic loadbalancer backendecs resource within telefonica open cloud.

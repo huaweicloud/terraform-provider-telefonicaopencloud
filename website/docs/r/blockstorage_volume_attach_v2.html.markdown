@@ -1,37 +1,37 @@
 ---
-layout: "openstack"
-page_title: "OpenStack: openstack_blockstorage_volume_attach_v2"
-sidebar_current: "docs-openstack-resource-blockstorage-volume-attach-v2"
+layout: "telefonicaopencloud"
+page_title: "TelefonicaOpenCloud: telefonicaopencloud_blockstorage_volume_attach_v2"
+sidebar_current: "docs-telefonicaopencloud-resource-blockstorage-volume-attach-v2"
 description: |-
   Creates an attachment connection to a Block Storage volume
 ---
 
-# openstack\_blockstorage\_volume\_attach\_v2
+# telefonicaopencloud\_blockstorage\_volume\_attach\_v2
 
 This resource is experimental and may be removed in the future! Feedback
 is requested if you find this resource useful or if you find any problems
 with it.
 
 Creates a general purpose attachment connection to a Block
-Storage volume using the OpenStack Block Storage (Cinder) v2 API.
+Storage volume using the TelefonicaOpenCloud Block Storage (Cinder) v2 API.
 Depending on your Block Storage service configuration, this
-resource can assist in attaching a volume to a non-OpenStack resource
+resource can assist in attaching a volume to a non-TelefonicaOpenCloud resource
 such as a bare-metal server or a remote virtual machine in a
 different cloud provider.
 
 This does not actually attach a volume to an instance. Please use
-the `openstack_compute_volume_attach_v2` resource for that.
+the `telefonicaopencloud_compute_volume_attach_v2` resource for that.
 
 ## Example Usage
 
 ```hcl
-resource "openstack_blockstorage_volume_v2" "volume_1" {
+resource "telefonicaopencloud_blockstorage_volume_v2" "volume_1" {
   name = "volume_1"
   size = 1
 }
 
-resource "openstack_blockstorage_volume_attach_v2" "va_1" {
-  volume_id = "${openstack_blockstorage_volume_v2.volume_1.id}"
+resource "telefonicaopencloud_blockstorage_volume_attach_v2" "va_1" {
+  volume_id = "${telefonicaopencloud_blockstorage_volume_v2.volume_1.id}"
   device = "auto"
   host_name = "devstack"
   ip_address = "192.168.255.10"
@@ -102,7 +102,7 @@ data.access_mode = rw
 data.auth_method = CHAP
 data.auth_password = xUhbGKQ8QCwKmHQ2
 data.auth_username = Sphn5X4EoyFUUMYVYSA4
-data.target_iqn = iqn.2010-10.org.openstack:volume-2d87ed25-c312-4f42-be1d-3b36b014561d
+data.target_iqn = iqn.2010-10.org.telefonicaopencloud:volume-2d87ed25-c312-4f42-be1d-3b36b014561d
 data.target_portal = 192.168.255.10:3260
 data.volume_id = 2d87ed25-c312-4f42-be1d-3b36b014561d
 ```
@@ -123,8 +123,8 @@ iscsiadm -m node -T ${self.data.target_iqn} -p ${self.data.target_portal} --resc
 The contents of `data` will vary from each Block Storage service. You must have
 a good understanding of how the service is configured and how to make the
 appropriate final connection. However, if used correctly, this has the
-flexibility to be able to attach OpenStack Block Storage volumes to
-non-OpenStack resources.
+flexibility to be able to attach TelefonicaOpenCloud Block Storage volumes to
+non-TelefonicaOpenCloud resources.
 
 ## Import
 
