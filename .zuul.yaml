@@ -1,5 +1,4 @@
 - project:
-    name: huawei-clouds/terraform-provider-telefonicaopencloud
-    check-telefonica:
+    check-generic-cloud:
       jobs:
         - terraform-provider-telefonicaopencloud-acceptance-test-telefonica
