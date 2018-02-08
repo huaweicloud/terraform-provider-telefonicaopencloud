@@ -178,8 +178,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_compute_volume_attach_v2":        resourceComputeVolumeAttachV2(),
 			"telefonicaopencloud_dns_recordset_v2":                resourceDNSRecordSetV2(),
 			"telefonicaopencloud_dns_zone_v2":                     resourceDNSZoneV2(),
-			"telefonicaopencloud_identity_project_v3":             resourceIdentityProjectV3(),
-			"telefonicaopencloud_identity_user_v3":                resourceIdentityUserV3(),
 			"telefonicaopencloud_images_image_v2":                 resourceImagesImageV2(),
 			"telefonicaopencloud_elb_loadbalancer":                resourceELBLoadBalancer(),
 			"telefonicaopencloud_elb_listener":                    resourceELBListener(),
