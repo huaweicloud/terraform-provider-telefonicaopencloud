@@ -176,7 +176,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_compute_floatingip_v2":           resourceComputeFloatingIPV2(),
 			"telefonicaopencloud_compute_floatingip_associate_v2": resourceComputeFloatingIPAssociateV2(),
 			"telefonicaopencloud_compute_volume_attach_v2":        resourceComputeVolumeAttachV2(),
-			"telefonicaopencloud_db_instance_v1":                  resourceDatabaseInstanceV1(),
 			"telefonicaopencloud_dns_recordset_v2":                resourceDNSRecordSetV2(),
 			"telefonicaopencloud_dns_zone_v2":                     resourceDNSZoneV2(),
 			"telefonicaopencloud_fw_firewall_v1":                  resourceFWFirewallV1(),
