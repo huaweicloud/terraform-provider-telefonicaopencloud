@@ -160,7 +160,7 @@ func testAccCheckComputeV2FloatingIPAssociateDestroy(s *terraform.State) error {
 		for _, networkAddresses := range instance.Addresses {
 			for _, element := range networkAddresses.([]interface{}) {
 				address := element.(map[string]interface{})
-				if address["OS-EXT-IPS:type"] == "floating" {
+				if address["OS-EXT-IPS:type"] == "floating" || address["OS-EXT-IPS:type"] == "fixed" {
 					return fmt.Errorf("Floating IP %s is still attached to instance %s", floatingIP, instanceId)
 				}
 			}
@@ -190,7 +190,8 @@ func testAccCheckComputeV2FloatingIPAssociateAssociated(
 			}
 			for _, element := range networkAddresses.([]interface{}) {
 				address := element.(map[string]interface{})
-				if address["OS-EXT-IPS:type"] == "floating" && address["addr"] == fip.FloatingIP {
+				if (address["OS-EXT-IPS:type"] == "floating" && address["addr"] == fip.FloatingIP) ||
+					(address["OS-EXT-IPS:type"] == "fixed" && address["addr"] == fip.FixedIP) {
 					return nil
 				}
 			}
