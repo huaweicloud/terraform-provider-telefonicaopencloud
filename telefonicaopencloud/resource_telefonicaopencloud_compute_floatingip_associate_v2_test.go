@@ -75,6 +75,8 @@ func TestAccComputeV2FloatingIPAssociate_attachToFirstNetwork(t *testing.T) {
 	})
 }
 
+// UNSUPPORTED:  Can't connect instance to network without being in a VPC?
+/*
 func TestAccComputeV2FloatingIPAssociate_attachToSecondNetwork(t *testing.T) {
 	var instance servers.Server
 	var fip floatingips.FloatingIP
@@ -95,6 +97,7 @@ func TestAccComputeV2FloatingIPAssociate_attachToSecondNetwork(t *testing.T) {
 		},
 	})
 }
+*/
 
 func TestAccComputeV2FloatingIPAssociate_attachNew(t *testing.T) {
 	var instance servers.Server
