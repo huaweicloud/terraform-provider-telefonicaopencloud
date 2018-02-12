@@ -200,8 +200,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_networking_router_route_v2":      resourceNetworkingRouterRouteV2(),
 			"telefonicaopencloud_networking_secgroup_v2":          resourceNetworkingSecGroupV2(),
 			"telefonicaopencloud_networking_secgroup_rule_v2":     resourceNetworkingSecGroupRuleV2(),
-			"telefonicaopencloud_objectstorage_container_v1":      resourceObjectStorageContainerV1(),
-			"telefonicaopencloud_objectstorage_object_v1":         resourceObjectStorageObjectV1(),
 			"telefonicaopencloud_as_group_v1":                     resourceASGroup(),
 			"telefonicaopencloud_as_configuration_v1":             resourceASConfiguration(),
 			"telefonicaopencloud_as_policy_v1":                    resourceASPolicy(),
