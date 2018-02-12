@@ -200,7 +200,7 @@ resource "telefonicaopencloud_blockstorage_volume_v2" "volume_1" {
 var testAccBlockStorageV2Volume_image = fmt.Sprintf(`
 resource "telefonicaopencloud_blockstorage_volume_v2" "volume_1" {
   name = "volume_1"
-  size = 5
+  size = 40
   image_id = "%s"
 }
 `, OS_IMAGE_ID)
