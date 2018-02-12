@@ -205,6 +205,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   security_groups = ["default"]
   network {
     uuid = "%s"
+  }
 }
 
 resource "telefonicaopencloud_networking_floatingip_v2" "fip_1" {

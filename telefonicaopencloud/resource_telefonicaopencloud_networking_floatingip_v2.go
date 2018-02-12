@@ -75,7 +75,7 @@ func resourceNetworkFloatingIPV2Create(d *schema.ResourceData, meta interface{})
 	config := meta.(*Config)
 	networkingClient, err := config.networkingV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack network client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud network client: %s", err)
 	}
 
 	poolID, err := getNetworkID(d, meta, d.Get("pool").(string))
@@ -112,6 +112,9 @@ func resourceNetworkFloatingIPV2Create(d *schema.ResourceData, meta interface{})
 	}
 
 	_, err = stateConf.WaitForState()
+	if err != nil {
+		return fmt.Errorf("Error creating TelefonicaOpenCloud Floating IP: %s", err)
+	}
 
 	d.SetId(floatingIP.ID)
 
@@ -280,6 +283,10 @@ func waitForFloatingIPDelete(networkingClient *gophercloud.ServiceClient, fId st
 				log.Printf("[DEBUG] Successfully deleted OpenStack Floating IP %s", fId)
 				return f, "DELETED", nil
 			}
+			if _, ok := err.(gophercloud.ErrDefault500); ok {
+				log.Printf("[DEBUG] Got 500 error when delting TelefonicaOpenCloud Floating IP %s, it should be stream control on API server, try again later", fId)
+				return f, "ACTIVE", nil
+			}
 			return f, "ACTIVE", err
 		}
 
@@ -288,6 +295,10 @@ func waitForFloatingIPDelete(networkingClient *gophercloud.ServiceClient, fId st
 			if _, ok := err.(gophercloud.ErrDefault404); ok {
 				log.Printf("[DEBUG] Successfully deleted OpenStack Floating IP %s", fId)
 				return f, "DELETED", nil
+			}
+			if _, ok := err.(gophercloud.ErrDefault500); ok {
+				log.Printf("[DEBUG] Got 500 error when delting HuaweiCloud Floating IP %s, it should be stream control on API server, try again later", fId)
+				return f, "ACTIVE", nil
 			}
 			return f, "ACTIVE", err
 		}
