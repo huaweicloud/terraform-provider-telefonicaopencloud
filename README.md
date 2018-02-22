@@ -7,6 +7,19 @@ Terraform TelefonicaOpenCloud Provider
 
 <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" width="600px">
 
+Terraform-Provider-TelefonicaOpencloud is a Terraform Provider for TelefonicaOpencloud.
+It is based on [Terraform-Provider-OpenStack](https://github.com/terraform-providers/terraform-provider-openstack)
+which is a standard Terraform OpenStack Provider. Terraform-Provider-TelefonicaOpencloud has renamed OpenStack with TelefonicaOpencloud
+and added some enhancements to interact with the many resources supported by TelefonicaOpencloud.
+
+## Enhancements
+
+- **autoscaling**: auto scaling service
+- **ces**: cloud eye service
+- **rds**: relational database service
+- **elb**: elastic load balance service
+- **smn**: simple message notification service
+
 Maintainers
 -----------
 
@@ -126,3 +139,8 @@ In order to run the full suite of Acceptance tests, run `make testacc`.
 ```sh
 $ make testacc
 ```
+
+## License
+
+Terraform-Provider-TelefonicaOpencloud is under the Mozilla Public License 2.0. See the [LICENSE](LICENSE) file for details.
+
