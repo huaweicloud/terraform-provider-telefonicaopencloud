@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform/plugin"
-	"github.com/huawei-clouds/terraform-provider-telefonicaopencloud/telefonicaopencloud"
+	"github.com/huaweicloud/terraform-provider-telefonicaopencloud/telefonicaopencloud"
 )
 
 func main() {

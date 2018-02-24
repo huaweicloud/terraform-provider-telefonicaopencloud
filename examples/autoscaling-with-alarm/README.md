@@ -4,9 +4,9 @@ As you may know, there are many kinds of configurations for auto-scaling, one of
 
 > End user want a server group, this group will contain several servers which number can increase or decrease according to current workload.
 
-This example will show you how to finish the configuration combining Auto-scaling service and Cloud Eye service. to simplify this example, we recommend you to read the [docs](https://github.com/huawei-clouds/terraform-provider-telefonicaopencloud/tree/master/website/docs/r) first.
+This example will show you how to finish the configuration combining Auto-scaling service and Cloud Eye service. to simplify this example, we recommend you to read the [docs](https://github.com/huaweicloud/terraform-provider-telefonicaopencloud/tree/master/website/docs/r) first.
 
-Three steps will guide you to achieve this configuration. first configuration an Auto-scaling group. because Auto-scaling group depends on Auto-scaling configuration resource, configuration creation need to finish before group. please refer to the docs [configuration](https://github.com/huawei-clouds/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_configuration_v1.html.markdown), [group](https://github.com/huawei-clouds/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_group_v1.html.markdown) for more detailed information
+Three steps will guide you to achieve this configuration. first configuration an Auto-scaling group. because Auto-scaling group depends on Auto-scaling configuration resource, configuration creation need to finish before group. please refer to the docs [configuration](https://github.com/huaweicloud/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_configuration_v1.html.markdown), [group](https://github.com/huaweicloud/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_group_v1.html.markdown) for more detailed information
 
 ```
 resource "telefonicaopencloud_as_configuration_v1" "as_configuration"{
@@ -45,7 +45,7 @@ resource "telefonicaopencloud_as_group_v1" "as_group"{
 }
 ```
 
-Second, setup the alarm rule upon this Auto-scaling group, for more detail [alarm](https://github.com/huawei-clouds/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/ces_alarm_rule.html.markdown)
+Second, setup the alarm rule upon this Auto-scaling group, for more detail [alarm](https://github.com/huaweicloud/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/ces_alarm_rule.html.markdown)
 
 ```
 resource "telefonicaopencloud_ces_alarmrule" "alarm_rule" {
@@ -87,4 +87,4 @@ resource "telefonicaopencloud_as_policy_v1" "as_policy"{
 }
 ```
 
-You can find the full example of how to configuration policy as alarm type in [doc](https://github.com/huawei-clouds/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_policy_v1.html.markdown)
+You can find the full example of how to configuration policy as alarm type in [doc](https://github.com/huaweicloud/terraform-provider-telefonicaopencloud/blob/master/website/docs/r/as_policy_v1.html.markdown)

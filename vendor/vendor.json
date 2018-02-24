@@ -1032,5 +1032,5 @@
 			"versionExact": "v1.6.1"
 		}
 	],
-	"rootPath": "github.com/huawei-clouds/terraform-provider-telefonicaopencloud"
+	"rootPath": "github.com/huaweicloud/terraform-provider-telefonicaopencloud"
 }
