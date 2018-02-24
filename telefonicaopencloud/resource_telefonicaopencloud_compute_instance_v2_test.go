@@ -261,23 +261,6 @@ func TestAccComputeV2Instance_metadataRemove(t *testing.T) {
 	})
 }
 
-func TestAccComputeV2Instance_forceDelete(t *testing.T) {
-	var instance servers.Server
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckComputeV2InstanceDestroy,
-		Steps: []resource.TestStep{
-			resource.TestStep{
-				Config: testAccComputeV2Instance_forceDelete,
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckComputeV2InstanceExists("telefonicaopencloud_compute_instance_v2.instance_1", &instance),
-				),
-			},
-		},
-	})
-}
-
 func TestAccComputeV2Instance_timeout(t *testing.T) {
 	var instance servers.Server
 	resource.Test(t, resource.TestCase{
@@ -701,17 +684,6 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
     foo = "bar"
     ghi = "jkl"
   }
-  network {
-    uuid = "%s"
-  }
-}
-`, OS_NETWORK_ID)
-
-var testAccComputeV2Instance_forceDelete = fmt.Sprintf(`
-resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
-  name = "instance_1"
-  security_groups = ["default"]
-  force_delete = true
   network {
     uuid = "%s"
   }
