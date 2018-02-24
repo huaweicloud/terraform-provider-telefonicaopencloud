@@ -635,7 +635,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   security_groups = ["default"]
   network {
     uuid = "%s"
-    fixed_ip_v4 = "10.0.0.24"
+    fixed_ip_v4 = "10.0.20.24"
   }
 }
 `, OS_NETWORK_ID)
@@ -646,7 +646,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   security_groups = ["default"]
   network {
     uuid = "%s"
-    fixed_ip_v4 = "10.0.0.25"
+    fixed_ip_v4 = "10.0.20.25"
   }
 }
 `, OS_NETWORK_ID)
