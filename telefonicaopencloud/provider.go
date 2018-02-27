@@ -224,6 +224,7 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_rds_instance_v1":                 resourceRdsInstance(),
 			"telefonicaopencloud_s3_bucket":                       resourceS3Bucket(),
 			"telefonicaopencloud_s3_bucket_policy":                resourceS3BucketPolicy(),
+			"telefonicaopencloud_s3_bucket_object":                resourceS3BucketObject(),
 		},
 
 		ConfigureFunc: configureProvider,
