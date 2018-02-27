@@ -177,6 +177,7 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_networking_secgroup_v2": dataSourceNetworkingSecGroupV2(),
 			"telefonicaopencloud_rds_flavors_v1":         dataSourceRdsFlavorV1(),
 			"telefonicaopencloud_elb_quota":              dataResourceELBQuota(),
+			"telefonicaopencloud_s3_bucket_object":       dataSourceS3BucketObject(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
