@@ -13,6 +13,20 @@ var osMutexKV = mutexkv.NewMutexKV()
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
+			"access_key": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("OS_ACCESS_KEY", ""),
+				Description: descriptions["access_key"],
+			},
+
+			"secret_key": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("OS_SECRET_KEY", ""),
+				Description: descriptions["secret_key"],
+			},
+
 			"auth_url": &schema.Schema{
 				Type:        schema.TypeString,
 				Optional:    true,
@@ -262,6 +276,8 @@ func init() {
 
 func configureProvider(d *schema.ResourceData) (interface{}, error) {
 	config := Config{
+		AccessKey:        d.Get("access_key").(string),
+		SecretKey:        d.Get("secret_key").(string),
 		CACertFile:       d.Get("cacert_file").(string),
 		ClientCertFile:   d.Get("cert").(string),
 		ClientKeyFile:    d.Get("key").(string),
