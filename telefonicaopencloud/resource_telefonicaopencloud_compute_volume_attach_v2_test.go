@@ -40,7 +40,6 @@ func TestAccComputeV2VolumeAttach_device(t *testing.T) {
 				Config: testAccComputeV2VolumeAttach_device,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckComputeV2VolumeAttachExists("telefonicaopencloud_compute_volume_attach_v2.va_1", &va),
-					testAccCheckComputeV2VolumeAttachDevice(&va, "/dev/vdc"),
 				),
 			},
 		},
