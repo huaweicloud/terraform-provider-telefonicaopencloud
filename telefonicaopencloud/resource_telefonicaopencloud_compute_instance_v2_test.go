@@ -541,7 +541,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   block_device {
     uuid = "%s"
     source_type = "image"
-    volume_size = 5
+    volume_size = 40
     boot_index = 0
     destination_type = "volume"
     delete_on_termination = true
@@ -555,7 +555,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
 var testAccComputeV2Instance_bootFromVolumeVolume = fmt.Sprintf(`
 resource "telefonicaopencloud_blockstorage_volume_v2" "vol_1" {
   name = "vol_1"
-  size = 5
+  size = 40
   image_id = "%s"
 }
 
@@ -582,7 +582,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   block_device {
     uuid = "%s"
     source_type = "image"
-    volume_size = 5
+    volume_size = 40
     boot_index = 0
     destination_type = "volume"
     delete_on_termination = true
@@ -600,7 +600,7 @@ resource "telefonicaopencloud_compute_instance_v2" "instance_1" {
   block_device {
     uuid = "%s"
     source_type = "image"
-    volume_size = 4
+    volume_size = 41
     boot_index = 0
     destination_type = "volume"
     delete_on_termination = true
