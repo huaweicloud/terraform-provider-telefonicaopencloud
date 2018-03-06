@@ -27,13 +27,7 @@ func TestAccImagesImageV2_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_images_image_v2.image_1", "container_format", "bare"),
 					resource.TestCheckResourceAttr(
-						"telefonicaopencloud_images_image_v2.image_1", "disk_format", "qcow2"),
-					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_images_image_v2.image_1", "schema", "/v2/schemas/image"),
-					resource.TestCheckResourceAttr(
-						"telefonicaopencloud_images_image_v2.image_1", "properties.foo", "bar"),
-					resource.TestCheckResourceAttr(
-						"telefonicaopencloud_images_image_v2.image_1", "properties.baz", "foo"),
 				),
 			},
 		},
@@ -120,19 +114,11 @@ func TestAccImagesImageV2_visibility(t *testing.T) {
 		CheckDestroy: testAccCheckImagesImageV2Destroy,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccImagesImageV2_visibility_1,
+				Config: testAccImagesImageV2_visibility,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckImagesImageV2Exists("telefonicaopencloud_images_image_v2.image_1", &image),
 					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_images_image_v2.image_1", "visibility", "private"),
-				),
-			},
-			resource.TestStep{
-				Config: testAccImagesImageV2_visibility_2,
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckImagesImageV2Exists("telefonicaopencloud_images_image_v2.image_1", &image),
-					resource.TestCheckResourceAttr(
-						"telefonicaopencloud_images_image_v2.image_1", "visibility", "public"),
 				),
 			},
 		},
@@ -286,10 +272,6 @@ var testAccImagesImageV2_basic = `
       image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
       container_format = "bare"
       disk_format = "qcow2"
-      properties {
-        foo = "bar"
-        baz = "foo"
-      }
   }`
 
 var testAccImagesImageV2_name_1 = `
@@ -335,22 +317,13 @@ var testAccImagesImageV2_tags_3 = `
       tags = ["foo","baz"]
   }`
 
-var testAccImagesImageV2_visibility_1 = `
+var testAccImagesImageV2_visibility = `
   resource "telefonicaopencloud_images_image_v2" "image_1" {
       name   = "Rancher TerraformAccTest"
       image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
       container_format = "bare"
       disk_format = "qcow2"
       visibility = "private"
-  }`
-
-var testAccImagesImageV2_visibility_2 = `
-  resource "telefonicaopencloud_images_image_v2" "image_1" {
-      name   = "Rancher TerraformAccTest"
-      image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
-      container_format = "bare"
-      disk_format = "qcow2"
-      visibility = "public"
   }`
 
 var testAccImagesImageV2_timeout = `

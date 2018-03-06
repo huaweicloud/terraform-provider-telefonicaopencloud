@@ -3,12 +3,12 @@ layout: "telefonicaopencloud"
 page_title: "TelefonicaOpenCloud: telefonicaopencloud_images_image_v2"
 sidebar_current: "docs-telefonicaopencloud-resource-images-image-v2"
 description: |-
-  Manages a V2 Image resource within TelefonicaOpenCloud Glance.
+  Manages a V2 Image resource within TelefonicaOpenCloud IMS.
 ---
 
 # telefonicaopencloud\_images\_image_v2
 
-Manages a V2 Image resource within TelefonicaOpenCloud Glance.
+Manages a V2 Image resource within TelefonicaOpenCloud IMS.
 
 ## Example Usage
 
@@ -18,10 +18,6 @@ resource "telefonicaopencloud_images_image_v2" "rancheros" {
   image_source_url = "https://releases.rancher.com/os/latest/rancheros-telefonicaopencloud.img"
   container_format = "bare"
   disk_format = "qcow2"
-
-  properties {
-    key = "value"
-  }
 }
 ```
 
@@ -36,15 +32,15 @@ The following arguments are supported:
    "ami", "ari", "aki", "vhd", "vmdk", "raw", "qcow2", "vdi", "iso".
 
 * `local_file_path` - (Optional) This is the filepath of the raw image file
-   that will be uploaded to Glance. Conflicts with `image_source_url`.
+   that will be uploaded to IMS. Conflicts with `image_source_url`.
 
 * `image_cache_path` - (Optional) This is the directory where the images will
    be downloaded. Images will be stored with a filename corresponding to
    the url's md5 hash. Defaults to "$HOME/.terraform/image_cache"
 
 * `image_source_url` - (Optional) This is the url of the raw image that will
-   be downloaded in the `image_cache_path` before being uploaded to Glance.
-   Glance is able to download image from internet but the `gophercloud` library
+   be downloaded in the `image_cache_path` before being uploaded to IMS.
+   IMS is able to download image from internet but the `gophercloud` library
    does not yet provide a way to do so.
    Conflicts with `local_file_path`.
 
@@ -56,23 +52,20 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the image.
 
-* `properties` - (Optional) A map of key/value pairs to set freeform
-    information about an image.
-
 * `protected` - (Optional) If true, image will not be deletable.
    Defaults to false.
 
-* `region` - (Optional) The region in which to obtain the V2 Glance client.
-    A Glance client is needed to create an Image that can be used with
+* `region` - (Optional) The region in which to obtain the V2 IMS client.
+    A IMS client is needed to create an Image that can be used with
     a compute instance. If omitted, the `region` argument of the provider
     is used. Changing this creates a new Image.
 
 * `tags` - (Optional) The tags of the image. It must be a list of strings.
     At this time, it is not possible to delete all tags of an image.
 
-* `visibility` - (Optional) The visibility of the image. Must be one of
-   "public", "private", "community", or "shared". The ability to set the
-   visibility depends upon the configuration of the TelefonicaOpenCloud cloud.
+* `visibility` - (Optional) The visibility of the image. Must "private".
+   The ability to set the visibility depends upon the configuration of
+   the TelefonicaOpenCloud cloud.
 
 ## Attributes Reference
 
@@ -85,7 +78,7 @@ The following attributes are exported:
 * `file` - the trailing path after the glance
    endpoint that represent the location of the image
    or the path to retrieve it.
-* `id` - A unique ID assigned by Glance.
+* `id` - A unique ID assigned by IMS.
 * `metadata` - The metadata associated with the image.
    Image metadata allow for meaningfully define the image properties
    and tags. See http://docs.telefonicaopencloud.org/developer/glance/metadefs-concepts.html.
@@ -93,7 +86,6 @@ The following attributes are exported:
 * `min_ram_mb` - See Argument Reference above.
 * `name` - See Argument Reference above.
 * `owner` - The id of the telefonicaopencloud user who owns the image.
-* `properties` - See Argument Reference above.
 * `protected` - See Argument Reference above.
 * `region` - See Argument Reference above.
 * `schema` - The path to the JSON-schema that represent

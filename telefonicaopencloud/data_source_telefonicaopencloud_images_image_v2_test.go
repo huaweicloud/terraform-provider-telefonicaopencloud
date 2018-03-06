@@ -25,10 +25,6 @@ func TestAccTelefonicaOpenCloudImagesV2ImageDataSource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.telefonicaopencloud_images_image_v2.image_1", "container_format", "bare"),
 					resource.TestCheckResourceAttr(
-						"data.telefonicaopencloud_images_image_v2.image_1", "disk_format", "qcow2"),
-					resource.TestCheckResourceAttr(
-						"data.telefonicaopencloud_images_image_v2.image_1", "min_disk_gb", "0"),
-					resource.TestCheckResourceAttr(
 						"data.telefonicaopencloud_images_image_v2.image_1", "min_ram_mb", "0"),
 					resource.TestCheckResourceAttr(
 						"data.telefonicaopencloud_images_image_v2.image_1", "protected", "false"),
@@ -67,12 +63,6 @@ func TestAccTelefonicaOpenCloudImagesV2ImageDataSource_testQueries(t *testing.T)
 				),
 			},
 			resource.TestStep{
-				Config: testAccTelefonicaOpenCloudImagesV2ImageDataSource_property,
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckImagesV2DataSourceID("data.telefonicaopencloud_images_image_v2.image_1"),
-				),
-			},
-			resource.TestStep{
 				Config: testAccTelefonicaOpenCloudImagesV2ImageDataSource_cirros,
 			},
 		},
@@ -102,10 +92,6 @@ resource "telefonicaopencloud_images_image_v2" "image_1" {
   disk_format = "qcow2"
   image_source_url = "http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img"
   tags = ["cirros-tf_1"]
-  properties {
-    foo = "bar"
-    bar = "foo"
-  }
 }
 
 resource "telefonicaopencloud_images_image_v2" "image_2" {
@@ -114,9 +100,6 @@ resource "telefonicaopencloud_images_image_v2" "image_2" {
   disk_format = "qcow2"
   image_source_url = "http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img"
   tags = ["cirros-tf_2"]
-  properties {
-    foo = "bar"
-  }
 }
 `
 
@@ -156,16 +139,5 @@ data "telefonicaopencloud_images_image_v2" "image_1" {
 	most_recent = true
 	visibility = "private"
 	size_max = "23000000"
-}
-`, testAccTelefonicaOpenCloudImagesV2ImageDataSource_cirros)
-
-var testAccTelefonicaOpenCloudImagesV2ImageDataSource_property = fmt.Sprintf(`
-%s
-
-data "telefonicaopencloud_images_image_v2" "image_1" {
-  properties {
-    foo = "bar"
-    bar = "foo"
-  }
 }
 `, testAccTelefonicaOpenCloudImagesV2ImageDataSource_cirros)
