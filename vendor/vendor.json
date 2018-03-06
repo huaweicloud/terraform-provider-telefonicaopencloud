@@ -1993,6 +1993,102 @@
 			"revisionTime": "2018-03-06T04:08:46Z"
 		},
 		{
+			"checksumSHA1": "+CmUgK1rGZRRaVjqkgPF/1PDYOY=",
+			"path": "github.com/gophercloud/utils/acceptance/clients",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "iDBwosaBt22rM4Shrx3OxNv255w=",
+			"path": "github.com/gophercloud/utils/acceptance/gnocchi/metric/v1",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "NGP7JaONuVIe+XexBTOQDa2Cu6w=",
+			"path": "github.com/gophercloud/utils/gnocchi",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "5dtKHM+Y9vPTU5Fe4w7VXDeiRUM=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/archivepolicies",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "CZ5UkZtiaao7oThptNCW/Gpah+M=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/archivepolicies/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "XssTqojfqTtsjKpNodBS/JvEc0Y=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/measures",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "c9lsD+Zg4kVz0O6zKiYbt0WP/bw=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/measures/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "ov+Mvn6JSe0Ylo/9Ef6325O4oHY=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/metrics",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "ptKy/SBXMJn8qgfHejS978JERSc=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/metrics/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "Y8/fwLapWLgAmNNLYI8XOcFMJLg=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/resources",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "54rQjNgbKhtD4boK39+Yy3Qa980=",
+			"path": "github.com/gophercloud/utils/gnocchi/metric/v1/resources/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "cJMgoD60YWZvC/vS9Xlu5aQzXFU=",
+			"path": "github.com/gophercloud/utils/gnocchi/testhelper/client",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "j2DMpAQkeCAK+nm0C709iniFuck=",
+			"path": "github.com/gophercloud/utils/internal",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "58uVucbG7rgrE5SsPD5930gjFv4=",
+			"path": "github.com/gophercloud/utils/internal/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "osQsRGKh9IjGBc3xJHaUC/H2t7o=",
+			"path": "github.com/gophercloud/utils/openstack/clientconfig",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
+			"checksumSHA1": "2TTW+btTyHKPmjzZECYOqHWFl5o=",
+			"path": "github.com/gophercloud/utils/openstack/clientconfig/testing",
+			"revision": "8abfa9d4f2ca86695976d143b8e9078d09cd0777",
+			"revisionTime": "2018-02-07T14:59:42Z"
+		},
+		{
 			"checksumSHA1": "cdOCt0Yb+hdErz8NAQqayxPmRsY=",
 			"path": "github.com/hashicorp/errwrap",
 			"revision": "7554cd9344cec97297fa6649b055a8c98c2a1e55"
