@@ -81,7 +81,7 @@ func resourceELBCertificateCreate(d *schema.ResourceData, meta interface{}) erro
 	config := meta.(*Config)
 	networkingClient, err := chooseELBClient(d, config)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	var createOpts certificate.CreateOpts
@@ -107,7 +107,7 @@ func resourceELBCertificateRead(d *schema.ResourceData, meta interface{}) error 
 	config := meta.(*Config)
 	networkingClient, err := chooseELBClient(d, config)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	c, err := certificate.Get(networkingClient, d.Id()).Extract()
@@ -123,7 +123,7 @@ func resourceELBCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
 	config := meta.(*Config)
 	networkingClient, err := chooseELBClient(d, config)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	cId := d.Id()
@@ -161,7 +161,7 @@ func resourceELBCertificateDelete(d *schema.ResourceData, meta interface{}) erro
 	config := meta.(*Config)
 	networkingClient, err := chooseELBClient(d, config)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	cId := d.Id()

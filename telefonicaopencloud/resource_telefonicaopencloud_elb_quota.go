@@ -42,7 +42,7 @@ func dataResourceELBQuotaRead(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 	networkingClient, err := chooseELBClient(d, config)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	q, err := quotas.Get(networkingClient).Extract()

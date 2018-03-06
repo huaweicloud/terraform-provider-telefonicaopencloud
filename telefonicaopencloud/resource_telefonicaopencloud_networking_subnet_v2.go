@@ -135,7 +135,7 @@ func resourceNetworkingSubnetV2Create(d *schema.ResourceData, meta interface{}) 
 	config := meta.(*Config)
 	networkingClient, err := config.networkingV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	createOpts := SubnetCreateOpts{
@@ -173,7 +173,7 @@ func resourceNetworkingSubnetV2Create(d *schema.ResourceData, meta interface{}) 
 
 	s, err := subnets.Create(networkingClient, createOpts).Extract()
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack Neutron subnet: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud Neutron subnet: %s", err)
 	}
 
 	log.Printf("[DEBUG] Waiting for Subnet (%s) to become available", s.ID)
@@ -197,7 +197,7 @@ func resourceNetworkingSubnetV2Read(d *schema.ResourceData, meta interface{}) er
 	config := meta.(*Config)
 	networkingClient, err := config.networkingV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	s, err := subnets.Get(networkingClient, d.Id()).Extract()
@@ -248,7 +248,7 @@ func resourceNetworkingSubnetV2Update(d *schema.ResourceData, meta interface{}) 
 	config := meta.(*Config)
 	networkingClient, err := config.networkingV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	var updateOpts subnets.UpdateOpts
@@ -293,7 +293,7 @@ func resourceNetworkingSubnetV2Update(d *schema.ResourceData, meta interface{}) 
 
 	_, err = subnets.Update(networkingClient, d.Id(), updateOpts).Extract()
 	if err != nil {
-		return fmt.Errorf("Error updating OpenStack Neutron Subnet: %s", err)
+		return fmt.Errorf("Error updating TelefonicaOpenCloud Neutron Subnet: %s", err)
 	}
 
 	return resourceNetworkingSubnetV2Read(d, meta)
@@ -303,7 +303,7 @@ func resourceNetworkingSubnetV2Delete(d *schema.ResourceData, meta interface{}) 
 	config := meta.(*Config)
 	networkingClient, err := config.networkingV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack networking client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud networking client: %s", err)
 	}
 
 	stateConf := &resource.StateChangeConf{
@@ -317,7 +317,7 @@ func resourceNetworkingSubnetV2Delete(d *schema.ResourceData, meta interface{}) 
 
 	_, err = stateConf.WaitForState()
 	if err != nil {
-		return fmt.Errorf("Error deleting OpenStack Neutron Subnet: %s", err)
+		return fmt.Errorf("Error deleting TelefonicaOpenCloud Neutron Subnet: %s", err)
 	}
 
 	d.SetId("")
@@ -378,19 +378,19 @@ func waitForSubnetActive(networkingClient *gophercloud.ServiceClient, subnetId s
 			return nil, "", err
 		}
 
-		log.Printf("[DEBUG] OpenStack Neutron Subnet: %+v", s)
+		log.Printf("[DEBUG] TelefonicaOpenCloud Neutron Subnet: %+v", s)
 		return s, "ACTIVE", nil
 	}
 }
 
 func waitForSubnetDelete(networkingClient *gophercloud.ServiceClient, subnetId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
-		log.Printf("[DEBUG] Attempting to delete OpenStack Subnet %s.\n", subnetId)
+		log.Printf("[DEBUG] Attempting to delete TelefonicaOpenCloud Subnet %s.\n", subnetId)
 
 		s, err := subnets.Get(networkingClient, subnetId).Extract()
 		if err != nil {
 			if _, ok := err.(gophercloud.ErrDefault404); ok {
-				log.Printf("[DEBUG] Successfully deleted OpenStack Subnet %s", subnetId)
+				log.Printf("[DEBUG] Successfully deleted TelefonicaOpenCloud Subnet %s", subnetId)
 				return s, "DELETED", nil
 			}
 			return s, "ACTIVE", err
@@ -399,7 +399,7 @@ func waitForSubnetDelete(networkingClient *gophercloud.ServiceClient, subnetId s
 		err = subnets.Delete(networkingClient, subnetId).ExtractErr()
 		if err != nil {
 			if _, ok := err.(gophercloud.ErrDefault404); ok {
-				log.Printf("[DEBUG] Successfully deleted OpenStack Subnet %s", subnetId)
+				log.Printf("[DEBUG] Successfully deleted TelefonicaOpenCloud Subnet %s", subnetId)
 				return s, "DELETED", nil
 			}
 			if errCode, ok := err.(gophercloud.ErrUnexpectedResponseCode); ok {
@@ -410,7 +410,7 @@ func waitForSubnetDelete(networkingClient *gophercloud.ServiceClient, subnetId s
 			return s, "ACTIVE", err
 		}
 
-		log.Printf("[DEBUG] OpenStack Subnet %s still active.\n", subnetId)
+		log.Printf("[DEBUG] TelefonicaOpenCloud Subnet %s still active.\n", subnetId)
 		return s, "ACTIVE", nil
 	}
 }

@@ -58,7 +58,7 @@ func resourceComputeFloatingIPV2Create(d *schema.ResourceData, meta interface{})
 	config := meta.(*Config)
 	computeClient, err := config.computeV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack compute client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud compute client: %s", err)
 	}
 
 	createOpts := &floatingips.CreateOpts{
@@ -79,7 +79,7 @@ func resourceComputeFloatingIPV2Read(d *schema.ResourceData, meta interface{}) e
 	config := meta.(*Config)
 	computeClient, err := config.computeV2Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack compute client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud compute client: %s", err)
 	}
 
 	fip, err := floatingips.Get(computeClient, d.Id()).Extract()

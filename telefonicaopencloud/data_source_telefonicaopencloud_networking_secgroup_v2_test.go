@@ -8,16 +8,16 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-func TestAccOpenStackNetworkingSecGroupV2DataSource_basic(t *testing.T) {
+func TestAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingSecGroupV2DataSource_group,
+				Config: testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_group,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingSecGroupV2DataSource_basic,
+				Config: testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_basic,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingSecGroupV2DataSourceID("data.telefonicaopencloud_networking_secgroup_v2.secgroup_1"),
 					resource.TestCheckResourceAttr(
@@ -28,16 +28,16 @@ func TestAccOpenStackNetworkingSecGroupV2DataSource_basic(t *testing.T) {
 	})
 }
 
-func TestAccOpenStackNetworkingSecGroupV2DataSource_secGroupID(t *testing.T) {
+func TestAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_secGroupID(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingSecGroupV2DataSource_group,
+				Config: testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_group,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingSecGroupV2DataSource_secGroupID,
+				Config: testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_secGroupID,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingSecGroupV2DataSourceID("data.telefonicaopencloud_networking_secgroup_v2.secgroup_1"),
 					resource.TestCheckResourceAttr(
@@ -63,25 +63,25 @@ func testAccCheckNetworkingSecGroupV2DataSourceID(n string) resource.TestCheckFu
 	}
 }
 
-const testAccOpenStackNetworkingSecGroupV2DataSource_group = `
+const testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_group = `
 resource "telefonicaopencloud_networking_secgroup_v2" "secgroup_1" {
         name        = "secgroup_1"
 	description = "My neutron security group"
 }
 `
 
-var testAccOpenStackNetworkingSecGroupV2DataSource_basic = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_basic = fmt.Sprintf(`
 %s
 
 data "telefonicaopencloud_networking_secgroup_v2" "secgroup_1" {
 	name = "${telefonicaopencloud_networking_secgroup_v2.secgroup_1.name}"
 }
-`, testAccOpenStackNetworkingSecGroupV2DataSource_group)
+`, testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_group)
 
-var testAccOpenStackNetworkingSecGroupV2DataSource_secGroupID = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_secGroupID = fmt.Sprintf(`
 %s
 
 data "telefonicaopencloud_networking_secgroup_v2" "secgroup_1" {
 	secgroup_id = "${telefonicaopencloud_networking_secgroup_v2.secgroup_1.id}"
 }
-`, testAccOpenStackNetworkingSecGroupV2DataSource_group)
+`, testAccTelefonicaOpenCloudNetworkingSecGroupV2DataSource_group)

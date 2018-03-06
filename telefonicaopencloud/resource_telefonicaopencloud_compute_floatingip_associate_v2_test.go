@@ -135,7 +135,7 @@ func testAccCheckComputeV2FloatingIPAssociateDestroy(s *terraform.State) error {
 	config := testAccProvider.Meta().(*Config)
 	computeClient, err := config.computeV2Client(OS_REGION_NAME)
 	if err != nil {
-		return fmt.Errorf("Error creating OpenStack compute client: %s", err)
+		return fmt.Errorf("Error creating TelefonicaOpenCloud compute client: %s", err)
 	}
 
 	for _, rs := range s.RootModule().Resources {

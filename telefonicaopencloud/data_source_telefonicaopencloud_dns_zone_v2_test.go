@@ -11,16 +11,16 @@ import (
 
 var zoneName = fmt.Sprintf("ACPTTEST%s.com.", acctest.RandString(5))
 
-func TestAccOpenStackDNSZoneV2DataSource_basic(t *testing.T) {
+func TestAccTelefonicaOpenCloudDNSZoneV2DataSource_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheckDNS(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackDNSZoneV2DataSource_zone,
+				Config: testAccTelefonicaOpenCloudDNSZoneV2DataSource_zone,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackDNSZoneV2DataSource_basic,
+				Config: testAccTelefonicaOpenCloudDNSZoneV2DataSource_basic,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckDNSZoneV2DataSourceID("data.telefonicaopencloud_dns_zone_v2.z1"),
 					resource.TestCheckResourceAttr(
@@ -50,7 +50,7 @@ func testAccCheckDNSZoneV2DataSourceID(n string) resource.TestCheckFunc {
 	}
 }
 
-var testAccOpenStackDNSZoneV2DataSource_zone = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudDNSZoneV2DataSource_zone = fmt.Sprintf(`
 resource "telefonicaopencloud_dns_zone_v2" "z1" {
   name = "%s"
   email = "terraform-dns-zone-v2-test-name@example.com"
@@ -58,9 +58,9 @@ resource "telefonicaopencloud_dns_zone_v2" "z1" {
   ttl = 7200
 }`, zoneName)
 
-var testAccOpenStackDNSZoneV2DataSource_basic = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudDNSZoneV2DataSource_basic = fmt.Sprintf(`
 %s
 data "telefonicaopencloud_dns_zone_v2" "z1" {
 	name = "${telefonicaopencloud_dns_zone_v2.z1.name}"
 }
-`, testAccOpenStackDNSZoneV2DataSource_zone)
+`, testAccTelefonicaOpenCloudDNSZoneV2DataSource_zone)

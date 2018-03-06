@@ -47,7 +47,7 @@ func (lrt *LogRoundTripper) RoundTrip(request *http.Request) (*http.Response, er
 	var err error
 
 	if lrt.OsDebug {
-		log.Printf("[DEBUG] OpenStack Request URL: %s %s", request.Method, request.URL)
+		log.Printf("[DEBUG] TelefonicaOpenCloud Request URL: %s %s", request.Method, request.URL)
 		log.Printf("[DEBUG] Openstack Request Headers:\n%s", FormatHeaders(request.Header, "\n"))
 
 		if request.Body != nil {
@@ -87,9 +87,9 @@ func (lrt *LogRoundTripper) logRequest(original io.ReadCloser, contentType strin
 	// Handle request contentType
 	if strings.HasPrefix(contentType, "application/json") {
 		debugInfo := lrt.formatJSON(bs.Bytes())
-		log.Printf("[DEBUG] OpenStack Request Body: %s", debugInfo)
+		log.Printf("[DEBUG] TelefonicaOpenCloud Request Body: %s", debugInfo)
 	} else {
-		log.Printf("[DEBUG] OpenStack Request Body: %s", bs.String())
+		log.Printf("[DEBUG] TelefonicaOpenCloud Request Body: %s", bs.String())
 	}
 
 	return ioutil.NopCloser(strings.NewReader(bs.String())), nil
@@ -107,12 +107,12 @@ func (lrt *LogRoundTripper) logResponse(original io.ReadCloser, contentType stri
 		}
 		debugInfo := lrt.formatJSON(bs.Bytes())
 		if debugInfo != "" {
-			log.Printf("[DEBUG] OpenStack Response Body: %s", debugInfo)
+			log.Printf("[DEBUG] TelefonicaOpenCloud Response Body: %s", debugInfo)
 		}
 		return ioutil.NopCloser(strings.NewReader(bs.String())), nil
 	}
 
-	log.Printf("[DEBUG] Not logging because OpenStack response body isn't JSON")
+	log.Printf("[DEBUG] Not logging because TelefonicaOpenCloud response body isn't JSON")
 	return original, nil
 }
 
@@ -123,7 +123,7 @@ func (lrt *LogRoundTripper) formatJSON(raw []byte) string {
 
 	err := json.Unmarshal(raw, &data)
 	if err != nil {
-		log.Printf("[DEBUG] Unable to parse OpenStack JSON: %s", err)
+		log.Printf("[DEBUG] Unable to parse TelefonicaOpenCloud JSON: %s", err)
 		return string(raw)
 	}
 
@@ -147,14 +147,14 @@ func (lrt *LogRoundTripper) formatJSON(raw []byte) string {
 
 	pretty, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		log.Printf("[DEBUG] Unable to re-marshal OpenStack JSON: %s", err)
+		log.Printf("[DEBUG] Unable to re-marshal TelefonicaOpenCloud JSON: %s", err)
 		return string(raw)
 	}
 
 	return string(pretty)
 }
 
-// Firewall is an OpenStack firewall.
+// Firewall is an TelefonicaOpenCloud firewall.
 type Firewall struct {
 	firewalls.Firewall
 	routerinsertion.FirewallExt

@@ -8,16 +8,16 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-func TestAccOpenStackNetworkingNetworkV2DataSource_basic(t *testing.T) {
+func TestAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_network,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_basic,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_basic,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingNetworkV2DataSourceID("data.telefonicaopencloud_networking_network_v2.net"),
 					resource.TestCheckResourceAttr(
@@ -30,16 +30,16 @@ func TestAccOpenStackNetworkingNetworkV2DataSource_basic(t *testing.T) {
 	})
 }
 
-func TestAccOpenStackNetworkingNetworkV2DataSource_subnet(t *testing.T) {
+func TestAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_subnet(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_network,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_subnet,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_subnet,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingNetworkV2DataSourceID("data.telefonicaopencloud_networking_network_v2.net"),
 					resource.TestCheckResourceAttr(
@@ -52,16 +52,16 @@ func TestAccOpenStackNetworkingNetworkV2DataSource_subnet(t *testing.T) {
 	})
 }
 
-func TestAccOpenStackNetworkingNetworkV2DataSource_networkID(t *testing.T) {
+func TestAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_networkID(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_network,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network,
 			},
 			resource.TestStep{
-				Config: testAccOpenStackNetworkingNetworkV2DataSource_networkID,
+				Config: testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_networkID,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingNetworkV2DataSourceID("data.telefonicaopencloud_networking_network_v2.net"),
 					resource.TestCheckResourceAttr(
@@ -89,7 +89,7 @@ func testAccCheckNetworkingNetworkV2DataSourceID(n string) resource.TestCheckFun
 	}
 }
 
-const testAccOpenStackNetworkingNetworkV2DataSource_network = `
+const testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network = `
 resource "telefonicaopencloud_networking_network_v2" "net" {
         name = "tf_test_network"
         admin_state_up = "true"
@@ -103,26 +103,26 @@ resource "telefonicaopencloud_networking_subnet_v2" "subnet" {
 }
 `
 
-var testAccOpenStackNetworkingNetworkV2DataSource_basic = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_basic = fmt.Sprintf(`
 %s
 
 data "telefonicaopencloud_networking_network_v2" "net" {
 	name = "${telefonicaopencloud_networking_network_v2.net.name}"
 }
-`, testAccOpenStackNetworkingNetworkV2DataSource_network)
+`, testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network)
 
-var testAccOpenStackNetworkingNetworkV2DataSource_subnet = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_subnet = fmt.Sprintf(`
 %s
 
 data "telefonicaopencloud_networking_network_v2" "net" {
 	matching_subnet_cidr = "${telefonicaopencloud_networking_subnet_v2.subnet.cidr}"
 }
-`, testAccOpenStackNetworkingNetworkV2DataSource_network)
+`, testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network)
 
-var testAccOpenStackNetworkingNetworkV2DataSource_networkID = fmt.Sprintf(`
+var testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_networkID = fmt.Sprintf(`
 %s
 
 data "telefonicaopencloud_networking_network_v2" "net" {
 	network_id = "${telefonicaopencloud_networking_network_v2.net.id}"
 }
-`, testAccOpenStackNetworkingNetworkV2DataSource_network)
+`, testAccTelefonicaOpenCloudNetworkingNetworkV2DataSource_network)
