@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/gophercloud/gophercloud/openstack/vpc/v1/eips"
+	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/eips"
 )
 
 func TestAccVpcV1EIP_basic(t *testing.T) {

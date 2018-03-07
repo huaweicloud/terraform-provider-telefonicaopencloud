@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/elb/certificate"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v2/extensions/elb/certificate"
 )
 
 const nameELBCert = "ELB-Certificate"

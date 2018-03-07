@@ -6,10 +6,10 @@ import (
 
 	"crypto/sha1"
 	"encoding/hex"
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/autoscaling/v1/configurations"
-	"github.com/gophercloud/gophercloud/openstack/autoscaling/v1/groups"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/huaweicloud/golangsdk"
+	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/configurations"
+	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/groups"
 	"os"
 	"regexp"
 )
@@ -352,7 +352,7 @@ func resourceASConfigurationDelete(d *schema.ResourceData, meta interface{}) err
 	return nil
 }
 
-func getASGroupsByConfiguration(asClient *gophercloud.ServiceClient, configurationID string) ([]groups.Group, error) {
+func getASGroupsByConfiguration(asClient *golangsdk.ServiceClient, configurationID string) ([]groups.Group, error) {
 	var gs []groups.Group
 	listOpts := groups.ListOpts{
 		ConfigurationID: configurationID,

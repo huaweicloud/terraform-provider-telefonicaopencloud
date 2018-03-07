@@ -23,7 +23,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/ports"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
-	"github.com/gophercloud/gophercloud/openstack/vpc/v1/eips"
+	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/eips"
 )
 
 // LogRoundTripper satisfies the http.RoundTripper interface and is used to

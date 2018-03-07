@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/rds/v1/instances"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/huaweicloud/golangsdk"
+	"github.com/huaweicloud/golangsdk/openstack/rds/v1/instances"
 )
 
 func resourceRdsInstance() *schema.Resource {
@@ -295,11 +295,11 @@ func resourceInstanceHa(d *schema.ResourceData) instances.HaOps {
 	return ha
 }
 
-func InstanceStateRefreshFunc(client *gophercloud.ServiceClient, instanceID string) resource.StateRefreshFunc {
+func InstanceStateRefreshFunc(client *golangsdk.ServiceClient, instanceID string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		instance, err := instances.Get(client, instanceID).Extract()
 		if err != nil {
-			if _, ok := err.(gophercloud.ErrDefault404); ok {
+			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				return instance, "DELETED", nil
 			}
 			return nil, "", err
@@ -488,11 +488,11 @@ func resourceInstanceDelete(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-func InstanceStateUpdateRefreshFunc(client *gophercloud.ServiceClient, instanceID string, size int) resource.StateRefreshFunc {
+func InstanceStateUpdateRefreshFunc(client *golangsdk.ServiceClient, instanceID string, size int) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		instance, err := instances.Get(client, instanceID).Extract()
 		if err != nil {
-			if _, ok := err.(gophercloud.ErrDefault404); ok {
+			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				return instance, "DELETED", nil
 			}
 			return nil, "", err
@@ -506,11 +506,11 @@ func InstanceStateUpdateRefreshFunc(client *gophercloud.ServiceClient, instanceI
 	}
 }
 
-func InstanceStateFlavorUpdateRefreshFunc(client *gophercloud.ServiceClient, instanceID string, flavorID string) resource.StateRefreshFunc {
+func InstanceStateFlavorUpdateRefreshFunc(client *golangsdk.ServiceClient, instanceID string, flavorID string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		instance, err := instances.Get(client, instanceID).Extract()
 		if err != nil {
-			if _, ok := err.(gophercloud.ErrDefault404); ok {
+			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				return instance, "DELETED", nil
 			}
 			return nil, "", err

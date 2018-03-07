@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/vpc/v1/bandwidths"
-	"github.com/gophercloud/gophercloud/openstack/vpc/v1/eips"
+	"github.com/huaweicloud/golangsdk"
+	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/bandwidths"
+	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/eips"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -262,7 +262,7 @@ func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-func getEIPStatus(vpcClient *gophercloud.ServiceClient, eId string) resource.StateRefreshFunc {
+func getEIPStatus(vpcClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		e, err := eips.Get(vpcClient, eId).Extract()
 		if err != nil {
@@ -278,13 +278,13 @@ func getEIPStatus(vpcClient *gophercloud.ServiceClient, eId string) resource.Sta
 	}
 }
 
-func waitForEIPDelete(vpcClient *gophercloud.ServiceClient, eId string) resource.StateRefreshFunc {
+func waitForEIPDelete(vpcClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		log.Printf("[DEBUG] Attempting to delete EIP %s.\n", eId)
 
 		e, err := eips.Get(vpcClient, eId).Extract()
 		if err != nil {
-			if _, ok := err.(gophercloud.ErrDefault404); ok {
+			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				log.Printf("[DEBUG] Successfully deleted EIP %s", eId)
 				return e, "DELETED", nil
 			}
@@ -293,7 +293,7 @@ func waitForEIPDelete(vpcClient *gophercloud.ServiceClient, eId string) resource
 
 		err = eips.Delete(vpcClient, eId).ExtractErr()
 		if err != nil {
-			if _, ok := err.(gophercloud.ErrDefault404); ok {
+			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				log.Printf("[DEBUG] Successfully deleted EIP %s", eId)
 				return e, "DELETED", nil
 			}
@@ -329,7 +329,7 @@ func resourceBandWidth(d *schema.ResourceData) eips.BandwidthOpts {
 	return bandwidth
 }
 
-func bindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.ServiceClient, timeout time.Duration) error {
+func bindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.ServiceClient, timeout time.Duration) error {
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
@@ -348,7 +348,7 @@ func bindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.Ser
 	return waitForEIPActive(vpcClient, eipID, timeout)
 }
 
-func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.ServiceClient, timeout time.Duration) error {
+func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.ServiceClient, timeout time.Duration) error {
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
@@ -367,7 +367,7 @@ func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *gophercloud.S
 	return waitForEIPActive(vpcClient, eipID, timeout)
 }
 
-func waitForEIPActive(vpcClient *gophercloud.ServiceClient, eipID string, timeout time.Duration) error {
+func waitForEIPActive(vpcClient *golangsdk.ServiceClient, eipID string, timeout time.Duration) error {
 	stateConf := &resource.StateChangeConf{
 		Target:     []string{"ACTIVE"},
 		Refresh:    getEIPStatus(vpcClient, eipID),

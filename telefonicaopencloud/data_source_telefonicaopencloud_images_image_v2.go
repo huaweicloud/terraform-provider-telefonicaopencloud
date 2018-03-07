@@ -158,7 +158,7 @@ func dataSourceImagesImageV2Read(d *schema.ResourceData, meta interface{}) error
 		SizeMax:    int64(d.Get("size_max").(int)),
 		SortKey:    d.Get("sort_key").(string),
 		SortDir:    d.Get("sort_direction").(string),
-		Tag:        d.Get("tag").(string),
+		Tags:       []string{d.Get("tag").(string)},
 	}
 
 	log.Printf("[DEBUG] List Options: %#v", listOpts)

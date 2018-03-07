@@ -6,7 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/elb/quotas"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v2/extensions/elb/quotas"
 )
 
 func dataResourceELBQuota() *schema.Resource {

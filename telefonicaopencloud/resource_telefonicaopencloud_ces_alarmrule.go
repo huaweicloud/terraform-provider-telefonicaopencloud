@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/gophercloud/gophercloud/openstack/cloudeyeservice/alarmrule"
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/huaweicloud/golangsdk/openstack/cloudeyeservice/alarmrule"
 )
 
 const nameCESAR = "CES-AlarmRule"

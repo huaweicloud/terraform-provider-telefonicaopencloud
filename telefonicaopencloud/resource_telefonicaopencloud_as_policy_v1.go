@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gophercloud/gophercloud/openstack/autoscaling/v1/policies"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/policies"
 	"regexp"
 	"strings"
 	"time"

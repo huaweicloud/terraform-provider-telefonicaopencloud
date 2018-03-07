@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/elb/listeners"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v2/extensions/elb/listeners"
 )
 
 const nameELBListener = "ELB-Listener"
@@ -355,14 +355,14 @@ func resourceELBListenerUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return fmt.Errorf("Error updating %s %s: building parameter failed:%s", nameELBListener, lId, err)
 	}
-	b, err := opts.IsNeedUpdate()
-	if err != nil {
-		return err
-	}
-	if !b {
-		log.Printf("[INFO] Updating %s %s with no changes", nameELBListener, lId)
-		return nil
-	}
+	//b, err := opts.IsNeedUpdate()
+	//if err != nil {
+	//	return err
+	//}
+	//if !b {
+	//	log.Printf("[INFO] Updating %s %s with no changes", nameELBListener, lId)
+	//	return nil
+	//}
 	protocol := d.Get("protocol").(string)
 	switch {
 	case protocol == "HTTPS" || protocol == "SSL" && d.Get("certificate_id") == nil:
