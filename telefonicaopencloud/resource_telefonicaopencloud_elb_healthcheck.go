@@ -3,7 +3,6 @@ package telefonicaopencloud
 import (
 	"fmt"
 	"log"
-	"regexp"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -37,95 +36,42 @@ func resourceELBHealthCheck() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					switch value {
-					case "HTTP":
-					case "TCP":
-					default:
-						errors = append(errors, fmt.Errorf("The valid value of %s is: HTTP, TCP", k))
-					}
-					return
-				},
 			},
 
 			"healthcheck_uri": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					vv := regexp.MustCompile("^/[a-zA-Z0-9-/.%?#&_=]{0,79}$")
-					if !vv.MatchString(value) {
-						errors = append(errors, fmt.Errorf("%s is a string of 1 to 80 characters that must start with a slash (/) and can only contain letters, digits, and special characters such as -/.%%?#&_=", k))
-					}
-					return
-				},
 			},
 
 			"healthcheck_connect_port": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 65535 {
-						errors = append(errors, fmt.Errorf("The value of %s must be in [1, 65535]", k))
-					}
-					return
-				},
 			},
 
 			"healthy_threshold": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 10 {
-						errors = append(errors, fmt.Errorf("The value of %s must be in [1, 10]", k))
-					}
-					return
-				},
 			},
 
 			"unhealthy_threshold": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 10 {
-						errors = append(errors, fmt.Errorf("The value of %s must be in [1, 10]", k))
-					}
-					return
-				},
 			},
 
 			"healthcheck_timeout": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 50 {
-						errors = append(errors, fmt.Errorf("The value of %s must be in [1, 50]", k))
-					}
-					return
-				},
 			},
 
 			"healthcheck_interval": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 5 {
-						errors = append(errors, fmt.Errorf("The value of %s must be in [1, 5]", k))
-					}
-					return
-				},
 			},
 
 			"update_time": &schema.Schema{
@@ -149,7 +95,7 @@ func resourceELBHealthCheckCreate(d *schema.ResourceData, meta interface{}) erro
 	}
 
 	var createOpts healthcheck.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	err, _ = buildCreateParam(&createOpts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBHC, err)
 	}
@@ -193,7 +139,7 @@ func resourceELBHealthCheckUpdate(d *schema.ResourceData, meta interface{}) erro
 	hcId := d.Id()
 
 	var updateOpts healthcheck.UpdateOpts
-	err = buildELBUpdateParam(&updateOpts, d)
+	err, _ = buildUpdateParam(&updateOpts, d)
 	if err != nil {
 		return fmt.Errorf("Error updating %s(%s): building parameter failed:%s", nameELBHC, hcId, err)
 	}
@@ -241,7 +187,7 @@ func resourceELBHealthCheckDelete(d *schema.ResourceData, meta interface{}) erro
 		return nil
 	})
 	if err != nil {
-		if isELBResourceNotFound(err) {
+		if isResourceNotFound(err) {
 			log.Printf("[INFO] deleting an unavailable %s: %s", nameELBHC, hcId)
 			return nil
 		}

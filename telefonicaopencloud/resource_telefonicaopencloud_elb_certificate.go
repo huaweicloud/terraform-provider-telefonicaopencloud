@@ -3,7 +3,6 @@ package telefonicaopencloud
 import (
 	"fmt"
 	"log"
-	"regexp"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -43,14 +42,6 @@ func resourceELBCertificate() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					vv := regexp.MustCompile("^[A-Z0-9]+[a-zA-Z0-9-.]{0,253}$")
-					if !vv.MatchString(value) {
-						errors = append(errors, fmt.Errorf("%s is a string that contains a maximum of 254 characters, can only contain letters, digits, hyphens (-), and periods (.), and must start with uppercase letters or digits", k))
-					}
-					return
-				},
 			},
 
 			"certificate": &schema.Schema{
@@ -85,7 +76,7 @@ func resourceELBCertificateCreate(d *schema.ResourceData, meta interface{}) erro
 	}
 
 	var createOpts certificate.CreateOpts
-	err = buildELBCreateParam(&createOpts, d)
+	err, _ = buildCreateParam(&createOpts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBCert, err)
 	}
@@ -128,7 +119,7 @@ func resourceELBCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
 
 	cId := d.Id()
 	var updateOpts certificate.UpdateOpts
-	err = buildELBUpdateParam(&updateOpts, d)
+	err, _ = buildUpdateParam(&updateOpts, d)
 	if err != nil {
 		return fmt.Errorf("Error updating %s(%s): building parameter failed:%s", nameELBCert, cId, err)
 	}
@@ -176,7 +167,7 @@ func resourceELBCertificateDelete(d *schema.ResourceData, meta interface{}) erro
 		return nil
 	})
 	if err != nil {
-		if isELBResourceNotFound(err) {
+		if isResourceNotFound(err) {
 			log.Printf("[INFO] deleting an unavailable %s: %s", nameELBCert, cId)
 			return nil
 		}

@@ -3,7 +3,6 @@ package telefonicaopencloud
 import (
 	"fmt"
 	"log"
-	"regexp"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -32,28 +31,12 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					vv := regexp.MustCompile("^[a-zA-Z0-9-_]{1,64}$")
-					if !vv.MatchString(value) {
-						errors = append(errors, fmt.Errorf("%s is a string of 1 to 64 characters that consist of letters, digits, underscores (_), and hyphens (-)", k))
-					}
-					return
-				},
 			},
 
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					vv := regexp.MustCompile("^[^<>]{0,128}$")
-					if !vv.MatchString(value) {
-						errors = append(errors, fmt.Errorf("%s is a string of 0 to 128 characters and cannot contain angle brackets (<>)", k))
-					}
-					return
-				},
 			},
 
 			"vpc_id": &schema.Schema{
@@ -65,25 +48,11 @@ func resourceELBLoadBalancer() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(int)
-					if value < 1 || value > 300 {
-						errors = append(errors, fmt.Errorf("%s must be in [1, 300]", k))
-					}
-					return
-				},
 			},
 
 			"type": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					if value != "Internal" && value != "External" {
-						errors = append(errors, fmt.Errorf("%s must be Internal or External", k))
-					}
-					return
-				},
 			},
 
 			"admin_state_up": &schema.Schema{
@@ -105,13 +74,7 @@ func resourceELBLoadBalancer() *schema.Resource {
 			"charge_mode": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					if value != "traffic" {
-						errors = append(errors, fmt.Errorf("%s must be traffic", k))
-					}
-					return
-				},
+				Default:  "bandwidth",
 			},
 
 			"eip_type": &schema.Schema{
@@ -123,14 +86,6 @@ func resourceELBLoadBalancer() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
-					value := v.(string)
-					vv := regexp.MustCompile("^[a-zA-Z0-9-]{1,200}$")
-					if !vv.MatchString(value) {
-						errors = append(errors, fmt.Errorf("%s is a string of 1 to 200 characters that consists of uppercase and lowercase letters, digits, and hyphens (-)", k))
-					}
-					return
-				},
 			},
 
 			"vip_address": &schema.Schema{
@@ -170,26 +125,26 @@ func resourceELBLoadBalancerCreate(d *schema.ResourceData, meta interface{}) err
 	}
 
 	var opts loadbalancers.CreateOpts
-	err = buildELBCreateParam(&opts, d)
+	err, _ = buildCreateParam(&opts, d)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBLB, err)
 	}
 	log.Printf("[DEBUG] Create %s Options: %#v", nameELBLB, opts)
 
 	switch {
-	case opts.Type == "External" && d.Get("bandwidth") == nil:
+	case opts.Type == "External" && !hasFilledParam(d, "bandwidth"):
 		return fmt.Errorf("bandwidth is mandatory when type is set to External")
 
-	case opts.Type == "Internal" && d.Get("vip_subnet_id") == nil:
+	case opts.Type == "Internal" && !hasFilledParam(d, "vip_subnet_id"):
 		return fmt.Errorf("vip_subnet_id is mandatory when type is set to Internal")
 
-	case opts.Type == "Internal" && d.Get("az") == nil:
+	case opts.Type == "Internal" && !hasFilledParam(d, "az"):
 		return fmt.Errorf("az is mandatory when type is set to Internal")
 
-	case opts.Type == "Internal" && d.Get("security_group_id") == nil:
+	case opts.Type == "Internal" && !hasFilledParam(d, "security_group_id"):
 		return fmt.Errorf("security_group_id is mandatory when type is set to Internal")
 
-	case opts.Type == "Internal" && d.Get("tenantid") == nil:
+	case opts.Type == "Internal" && !hasFilledParam(d, "tenantid"):
 		return fmt.Errorf("tenantid is mandatory when type is set to Internal")
 	}
 
@@ -259,17 +214,9 @@ func resourceELBLoadBalancerUpdate(d *schema.ResourceData, meta interface{}) err
 	lbId := d.Id()
 
 	var updateOpts loadbalancers.UpdateOpts
-	err = buildELBUpdateParam(&updateOpts, d)
+	err, not_pass_param := buildUpdateParam(&updateOpts, d)
 	if err != nil {
 		return fmt.Errorf("Error updating %s %s: building parameter failed:%s", nameELBLB, lbId, err)
-	}
-	b, err := updateOpts.IsNeedUpdate()
-	if err != nil {
-		return err
-	}
-	if !b {
-		log.Printf("[INFO] Updating %s %s with no changes", nameELBLB, lbId)
-		return nil
 	}
 
 	// Wait for LoadBalancer to become active before continuing
@@ -282,7 +229,7 @@ func resourceELBLoadBalancerUpdate(d *schema.ResourceData, meta interface{}) err
 	log.Printf("[DEBUG] Updating %s %s with options: %#v", nameELBLB, lbId, updateOpts)
 	var job *elb.Job
 	err = resource.Retry(timeout, func() *resource.RetryError {
-		j, err := loadbalancers.Update(networkingClient, lbId, updateOpts).Extract()
+		j, err := loadbalancers.Update(networkingClient, lbId, updateOpts, not_pass_param).Extract()
 		if err != nil {
 			return checkForRetryableError(err)
 		}
@@ -323,7 +270,7 @@ func resourceELBLoadBalancerDelete(d *schema.ResourceData, meta interface{}) err
 		return nil
 	})
 	if err != nil {
-		if isELBResourceNotFound(err) {
+		if isResourceNotFound(err) {
 			log.Printf("[INFO] deleting an unavailable %s: %s", nameELBLB, lbId)
 			return nil
 		}
