@@ -187,17 +187,11 @@ resource "telefonicaopencloud_networking_port_v2" "port_1" {
     subnet_id = "${telefonicaopencloud_networking_subnet_v2.subnet_1.id}"
     ip_address = "192.168.199.10"
   }
-
-  fixed_ip {
-    subnet_id = "${telefonicaopencloud_networking_subnet_v2.subnet_1.id}"
-    ip_address = "192.168.199.20"
-  }
 }
 
 resource "telefonicaopencloud_networking_floatingip_v2" "fip_1" {
   pool = "%s"
   port_id = "${telefonicaopencloud_networking_port_v2.port_1.id}"
-  fixed_ip = "${telefonicaopencloud_networking_port_v2.port_1.fixed_ip.1.ip_address}"
 }
 `, OS_EXTGW_ID, OS_POOL_NAME)
 
