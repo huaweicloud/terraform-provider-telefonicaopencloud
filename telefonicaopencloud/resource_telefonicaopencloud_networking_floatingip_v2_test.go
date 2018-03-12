@@ -41,7 +41,7 @@ func TestAccNetworkingV2FloatingIP_fixedip_bind(t *testing.T) {
 				Config: testAccNetworkingV2FloatingIP_fixedip_bind,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckNetworkingV2FloatingIPExists("telefonicaopencloud_networking_floatingip_v2.fip_1", &fip),
-					testAccCheckNetworkingV2FloatingIPBoundToCorrectIP(&fip, "192.168.199.20"),
+					testAccCheckNetworkingV2FloatingIPBoundToCorrectIP(&fip, "192.168.199.10"),
 				),
 			},
 		},
