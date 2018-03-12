@@ -54,7 +54,7 @@ func dataResourceELBQuotaRead(d *schema.ResourceData, meta interface{}) error {
 	t := d.Get("type").(string)
 	for _, v := range q {
 		if v.Type == t {
-			return refreshResourceData(v, d)
+			return refreshResourceData(v, d, nil)
 		}
 	}
 	return fmt.Errorf("Error does not find the quota for %s", t)

@@ -76,7 +76,7 @@ func resourceELBCertificateCreate(d *schema.ResourceData, meta interface{}) erro
 	}
 
 	var createOpts certificate.CreateOpts
-	err, _ = buildCreateParam(&createOpts, d)
+	_, err = buildCreateParam(&createOpts, d, nil)
 	if err != nil {
 		return fmt.Errorf("Error creating %s: building parameter failed:%s", nameELBCert, err)
 	}
@@ -107,7 +107,7 @@ func resourceELBCertificateRead(d *schema.ResourceData, meta interface{}) error 
 	}
 	log.Printf("[DEBUG] Retrieved %s(%s): %#v", nameELBCert, d.Id(), *c)
 
-	return refreshResourceData(c, d)
+	return refreshResourceData(c, d, nil)
 }
 
 func resourceELBCertificateUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -119,7 +119,7 @@ func resourceELBCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
 
 	cId := d.Id()
 	var updateOpts certificate.UpdateOpts
-	err, _ = buildUpdateParam(&updateOpts, d)
+	_, err = buildUpdateParam(&updateOpts, d, nil)
 	if err != nil {
 		return fmt.Errorf("Error updating %s(%s): building parameter failed:%s", nameELBCert, cId, err)
 	}
