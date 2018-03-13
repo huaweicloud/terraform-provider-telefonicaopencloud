@@ -94,6 +94,11 @@ resource "telefonicaopencloud_compute_instance_v2" "vm_1" {
   }
 }
 
+resource "telefonicaopencloud_smn_topic_v2" "topic_1" {
+  name		  = "topic_1"
+  display_name    = "The display name of topic_1"
+}
+
 resource "telefonicaopencloud_ces_alarmrule" "alarmrule_1" {
   "alarm_name" = "alarm_rule1"
 
@@ -114,6 +119,13 @@ resource "telefonicaopencloud_ces_alarmrule" "alarmrule_1" {
     "count" = 1
   }
   "alarm_action_enabled" = false
+
+  "alarm_actions" {
+    "type" = "notification"
+    "notification_list" = [
+      "${telefonicaopencloud_smn_topic_v2.topic_1.topic_urn}"
+    ]
+  }
 }
 `, OS_NETWORK_ID)
 
@@ -123,6 +135,11 @@ resource "telefonicaopencloud_compute_instance_v2" "vm_1" {
   network {
     uuid = "%s"
   }
+}
+
+resource "telefonicaopencloud_smn_topic_v2" "topic_1" {
+  name		  = "topic_1"
+  display_name    = "The display name of topic_1"
 }
 
 resource "telefonicaopencloud_ces_alarmrule" "alarmrule_1" {
@@ -146,5 +163,12 @@ resource "telefonicaopencloud_ces_alarmrule" "alarmrule_1" {
   }
   "alarm_action_enabled" = false
   "alarm_enabled" = false
+
+  "alarm_actions" {
+    "type" = "notification"
+    "notification_list" = [
+      "${telefonicaopencloud_smn_topic_v2.topic_1.topic_urn}"
+    ]
+  }
 }
 `, OS_NETWORK_ID)
