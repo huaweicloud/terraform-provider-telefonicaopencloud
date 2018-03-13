@@ -31,6 +31,7 @@ var (
 	OS_AVAILABILITY_ZONE      = os.Getenv("OS_AVAILABILITY_ZONE")
 	OS_ACCESS_KEY             = os.Getenv("OS_ACCESS_KEY")
 	OS_SECRET_KEY             = os.Getenv("OS_SECRET_KEY")
+	OS_TENANT_ID              = os.Getenv("OS_TENANT_ID")
 )
 
 var testAccProviders map[string]terraform.ResourceProvider
@@ -136,6 +137,14 @@ func testAccPreCheckObs(t *testing.T) {
 
 	if OS_SECRET_KEY == "" {
 		t.Fatal("OS_SECRET_KEY must be set for obs acceptance tests")
+	}
+}
+
+func testAccPreCheckELB(t *testing.T) {
+	testAccPreCheckRequiredEnvVars(t)
+
+	if OS_TENANT_ID == "" {
+		t.Skip("This environment does not support ELB tests")
 	}
 }
 
