@@ -176,7 +176,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_networking_subnet_v2":   dataSourceNetworkingSubnetV2(),
 			"telefonicaopencloud_networking_secgroup_v2": dataSourceNetworkingSecGroupV2(),
 			"telefonicaopencloud_rds_flavors_v1":         dataSourceRdsFlavorV1(),
-			"telefonicaopencloud_elb_quota":              dataResourceELBQuota(),
 			"telefonicaopencloud_s3_bucket_object":       dataSourceS3BucketObject(),
 		},
 
@@ -196,7 +195,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_elb_listener":                    resourceELBListener(),
 			"telefonicaopencloud_elb_healthcheck":                 resourceELBHealthCheck(),
 			"telefonicaopencloud_elb_backendecs":                  resourceELBBackendECS(),
-			"telefonicaopencloud_elb_certificate":                 resourceELBCertificate(),
 			"telefonicaopencloud_networking_network_v2":           resourceNetworkingNetworkV2(),
 			"telefonicaopencloud_networking_subnet_v2":            resourceNetworkingSubnetV2(),
 			"telefonicaopencloud_networking_floatingip_v2":        resourceNetworkingFloatingIPV2(),
