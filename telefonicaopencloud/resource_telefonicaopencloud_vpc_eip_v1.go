@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/huaweicloud/golangsdk"
-	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/bandwidths"
-	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/eips"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v1/bandwidths"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v1/eips"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -102,9 +102,9 @@ func resourceVpcEIPV1() *schema.Resource {
 
 func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
-	vpcClient, err := config.vpcV1Client(GetRegion(d, config))
+	networkingClient, err := config.networkingV1Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating VPC client: %s", err)
+		return fmt.Errorf("Error creating networking client: %s", err)
 	}
 
 	createOpts := EIPCreateOpts{
@@ -116,7 +116,7 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	log.Printf("[DEBUG] Create Options: %#v", createOpts)
-	eIP, err := eips.Apply(vpcClient, createOpts).Extract()
+	eIP, err := eips.Apply(networkingClient, createOpts).Extract()
 	if err != nil {
 		return fmt.Errorf("Error allocating EIP: %s", err)
 	}
@@ -124,14 +124,14 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 	log.Printf("[DEBUG] Waiting for EIP %#v to become available.", eIP)
 
 	timeout := d.Timeout(schema.TimeoutCreate)
-	err = waitForEIPActive(vpcClient, eIP.ID, timeout)
+	err = waitForEIPActive(networkingClient, eIP.ID, timeout)
 	if err != nil {
 		return fmt.Errorf(
 			"Error waiting for EIP (%s) to become ready: %s",
 			eIP.ID, err)
 	}
 
-	err = bindToPort(d, eIP.ID, vpcClient, timeout)
+	err = bindToPort(d, eIP.ID, networkingClient, timeout)
 	if err != nil {
 		return fmt.Errorf("Error binding eip:%s to port: %s", eIP.ID, err)
 	}
@@ -143,16 +143,16 @@ func resourceVpcEIPV1Create(d *schema.ResourceData, meta interface{}) error {
 
 func resourceVpcEIPV1Read(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
-	vpcClient, err := config.vpcV1Client(GetRegion(d, config))
+	networkingClient, err := config.networkingV1Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating VPC client: %s", err)
+		return fmt.Errorf("Error creating networking client: %s", err)
 	}
 
-	eIP, err := eips.Get(vpcClient, d.Id()).Extract()
+	eIP, err := eips.Get(networkingClient, d.Id()).Extract()
 	if err != nil {
 		return CheckDeleted(d, err, "eIP")
 	}
-	bandWidth, err := bandwidths.Get(vpcClient, eIP.BandwidthID).Extract()
+	bandWidth, err := bandwidths.Get(networkingClient, eIP.BandwidthID).Extract()
 	if err != nil {
 		return fmt.Errorf("Error fetching bandwidth: %s", err)
 	}
@@ -184,9 +184,9 @@ func resourceVpcEIPV1Read(d *schema.ResourceData, meta interface{}) error {
 
 func resourceVpcEIPV1Update(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
-	vpcClient, err := config.vpcV1Client(GetRegion(d, config))
+	networkingClient, err := config.networkingV1Client(GetRegion(d, config))
 	if err != nil {
-		return fmt.Errorf("Error creating EIP client: %s", err)
+		return fmt.Errorf("Error creating networking client: %s", err)
 	}
 
 	// Update bandwidth change
@@ -200,11 +200,11 @@ func resourceVpcEIPV1Update(d *schema.ResourceData, meta interface{}) error {
 
 		log.Printf("[DEBUG] Bandwidth Update Options: %#v", updateOpts)
 
-		eIP, err := eips.Get(vpcClient, d.Id()).Extract()
+		eIP, err := eips.Get(networkingClient, d.Id()).Extract()
 		if err != nil {
 			return CheckDeleted(d, err, "eIP")
 		}
-		_, err = bandwidths.Update(vpcClient, eIP.BandwidthID, updateOpts).Extract()
+		_, err = bandwidths.Update(networkingClient, eIP.BandwidthID, updateOpts).Extract()
 		if err != nil {
 			return fmt.Errorf("Error updating bandwidth: %s", err)
 		}
@@ -220,7 +220,7 @@ func resourceVpcEIPV1Update(d *schema.ResourceData, meta interface{}) error {
 		updateOpts.PortID = newMap["port_id"].(string)
 
 		log.Printf("[DEBUG] PublicIP Update Options: %#v", updateOpts)
-		_, err = eips.Update(vpcClient, d.Id(), updateOpts).Extract()
+		_, err = eips.Update(networkingClient, d.Id(), updateOpts).Extract()
 		if err != nil {
 			return fmt.Errorf("Error updating publicip: %s", err)
 		}
@@ -232,13 +232,13 @@ func resourceVpcEIPV1Update(d *schema.ResourceData, meta interface{}) error {
 
 func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
-	vpcClient, err := config.vpcV1Client(GetRegion(d, config))
+	networkingClient, err := config.networkingV1Client(GetRegion(d, config))
 	if err != nil {
 		return fmt.Errorf("Error creating VPC client: %s", err)
 	}
 
 	timeout := d.Timeout(schema.TimeoutDelete)
-	err = unbindToPort(d, d.Id(), vpcClient, timeout)
+	err = unbindToPort(d, d.Id(), networkingClient, timeout)
 	if err != nil {
 		return fmt.Errorf("Error unbinding eip:%s to port: %s", d.Id(), err)
 	}
@@ -246,7 +246,7 @@ func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 	stateConf := &resource.StateChangeConf{
 		Pending:    []string{"ACTIVE"},
 		Target:     []string{"DELETED"},
-		Refresh:    waitForEIPDelete(vpcClient, d.Id()),
+		Refresh:    waitForEIPDelete(networkingClient, d.Id()),
 		Timeout:    timeout,
 		Delay:      5 * time.Second,
 		MinTimeout: 3 * time.Second,
@@ -262,9 +262,9 @@ func resourceVpcEIPV1Delete(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-func getEIPStatus(vpcClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
+func getEIPStatus(networkingClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
-		e, err := eips.Get(vpcClient, eId).Extract()
+		e, err := eips.Get(networkingClient, eId).Extract()
 		if err != nil {
 			return nil, "", err
 		}
@@ -278,11 +278,11 @@ func getEIPStatus(vpcClient *golangsdk.ServiceClient, eId string) resource.State
 	}
 }
 
-func waitForEIPDelete(vpcClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
+func waitForEIPDelete(networkingClient *golangsdk.ServiceClient, eId string) resource.StateRefreshFunc {
 	return func() (interface{}, string, error) {
 		log.Printf("[DEBUG] Attempting to delete EIP %s.\n", eId)
 
-		e, err := eips.Get(vpcClient, eId).Extract()
+		e, err := eips.Get(networkingClient, eId).Extract()
 		if err != nil {
 			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				log.Printf("[DEBUG] Successfully deleted EIP %s", eId)
@@ -291,7 +291,7 @@ func waitForEIPDelete(vpcClient *golangsdk.ServiceClient, eId string) resource.S
 			return e, "ACTIVE", err
 		}
 
-		err = eips.Delete(vpcClient, eId).ExtractErr()
+		err = eips.Delete(networkingClient, eId).ExtractErr()
 		if err != nil {
 			if _, ok := err.(golangsdk.ErrDefault404); ok {
 				log.Printf("[DEBUG] Successfully deleted EIP %s", eId)
@@ -329,7 +329,7 @@ func resourceBandWidth(d *schema.ResourceData) eips.BandwidthOpts {
 	return bandwidth
 }
 
-func bindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.ServiceClient, timeout time.Duration) error {
+func bindToPort(d *schema.ResourceData, eipID string, networkingClient *golangsdk.ServiceClient, timeout time.Duration) error {
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
@@ -341,14 +341,14 @@ func bindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.Servi
 	log.Printf("[DEBUG] Bind eip:%s to port: %s", eipID, pd)
 
 	updateOpts := eips.UpdateOpts{PortID: pd}
-	_, err := eips.Update(vpcClient, eipID, updateOpts).Extract()
+	_, err := eips.Update(networkingClient, eipID, updateOpts).Extract()
 	if err != nil {
 		return err
 	}
-	return waitForEIPActive(vpcClient, eipID, timeout)
+	return waitForEIPActive(networkingClient, eipID, timeout)
 }
 
-func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.ServiceClient, timeout time.Duration) error {
+func unbindToPort(d *schema.ResourceData, eipID string, networkingClient *golangsdk.ServiceClient, timeout time.Duration) error {
 	publicIPRaw := d.Get("publicip").([]interface{})
 	rawMap := publicIPRaw[0].(map[string]interface{})
 	port_id, ok := rawMap["port_id"]
@@ -360,17 +360,17 @@ func unbindToPort(d *schema.ResourceData, eipID string, vpcClient *golangsdk.Ser
 	log.Printf("[DEBUG] Unbind eip:%s to port: %s", eipID, pd)
 
 	updateOpts := eips.UpdateOpts{PortID: ""}
-	_, err := eips.Update(vpcClient, eipID, updateOpts).Extract()
+	_, err := eips.Update(networkingClient, eipID, updateOpts).Extract()
 	if err != nil {
 		return err
 	}
-	return waitForEIPActive(vpcClient, eipID, timeout)
+	return waitForEIPActive(networkingClient, eipID, timeout)
 }
 
-func waitForEIPActive(vpcClient *golangsdk.ServiceClient, eipID string, timeout time.Duration) error {
+func waitForEIPActive(networkingClient *golangsdk.ServiceClient, eipID string, timeout time.Duration) error {
 	stateConf := &resource.StateChangeConf{
 		Target:     []string{"ACTIVE"},
-		Refresh:    getEIPStatus(vpcClient, eipID),
+		Refresh:    getEIPStatus(networkingClient, eipID),
 		Timeout:    timeout,
 		Delay:      5 * time.Second,
 		MinTimeout: 3 * time.Second,

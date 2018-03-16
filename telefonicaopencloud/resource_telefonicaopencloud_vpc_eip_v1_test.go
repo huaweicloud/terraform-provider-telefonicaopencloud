@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/huaweicloud/golangsdk/openstack/vpc/v1/eips"
+	"github.com/huaweicloud/golangsdk/openstack/networking/v1/eips"
 )
 
 func TestAccVpcV1EIP_basic(t *testing.T) {
@@ -48,7 +48,7 @@ func TestAccVpcV1EIP_timeout(t *testing.T) {
 
 func testAccCheckVpcV1EIPDestroy(s *terraform.State) error {
 	config := testAccProvider.Meta().(*Config)
-	vpcClient, err := config.vpcV1Client(OS_REGION_NAME)
+	networkingClient, err := config.networkingV1Client(OS_REGION_NAME)
 	if err != nil {
 		return fmt.Errorf("Error creating EIP: %s", err)
 	}
@@ -58,7 +58,7 @@ func testAccCheckVpcV1EIPDestroy(s *terraform.State) error {
 			continue
 		}
 
-		_, err := eips.Get(vpcClient, rs.Primary.ID).Extract()
+		_, err := eips.Get(networkingClient, rs.Primary.ID).Extract()
 		if err == nil {
 			return fmt.Errorf("EIP still exists")
 		}
@@ -79,12 +79,12 @@ func testAccCheckVpcV1EIPExists(n string, kp *eips.PublicIp) resource.TestCheckF
 		}
 
 		config := testAccProvider.Meta().(*Config)
-		vpcClient, err := config.vpcV1Client(OS_REGION_NAME)
+		networkingClient, err := config.networkingV1Client(OS_REGION_NAME)
 		if err != nil {
-			return fmt.Errorf("Error creating vpc client: %s", err)
+			return fmt.Errorf("Error creating networking client: %s", err)
 		}
 
-		found, err := eips.Get(vpcClient, rs.Primary.ID).Extract()
+		found, err := eips.Get(networkingClient, rs.Primary.ID).Extract()
 		if err != nil {
 			return err
 		}
