@@ -171,7 +171,6 @@ func Provider() terraform.ResourceProvider {
 
 		DataSourcesMap: map[string]*schema.Resource{
 			"telefonicaopencloud_dns_zone_v2":            dataSourceDNSZoneV2(),
-			"telefonicaopencloud_images_image_v2":        dataSourceImagesImageV2(),
 			"telefonicaopencloud_networking_network_v2":  dataSourceNetworkingNetworkV2(),
 			"telefonicaopencloud_networking_subnet_v2":   dataSourceNetworkingSubnetV2(),
 			"telefonicaopencloud_networking_secgroup_v2": dataSourceNetworkingSecGroupV2(),
@@ -190,7 +189,6 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_compute_volume_attach_v2":        resourceComputeVolumeAttachV2(),
 			"telefonicaopencloud_dns_recordset_v2":                resourceDNSRecordSetV2(),
 			"telefonicaopencloud_dns_zone_v2":                     resourceDNSZoneV2(),
-			"telefonicaopencloud_images_image_v2":                 resourceImagesImageV2(),
 			"telefonicaopencloud_elb_loadbalancer":                resourceELBLoadBalancer(),
 			"telefonicaopencloud_elb_listener":                    resourceELBListener(),
 			"telefonicaopencloud_elb_healthcheck":                 resourceELBHealthCheck(),
