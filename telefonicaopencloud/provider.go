@@ -178,6 +178,8 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_rds_flavors_v1":         dataSourceRdsFlavorV1(),
 			"telefonicaopencloud_elb_quota":              dataResourceELBQuota(),
 			"telefonicaopencloud_s3_bucket_object":       dataSourceS3BucketObject(),
+			"telefonicaopencloud_kms_key_v1":             dataSourceKmsKeyV1(),
+			"telefonicaopencloud_kms_data_key_v1":        dataSourceKmsDataKeyV1(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -192,6 +194,7 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_dns_recordset_v2":                resourceDNSRecordSetV2(),
 			"telefonicaopencloud_dns_zone_v2":                     resourceDNSZoneV2(),
 			"telefonicaopencloud_images_image_v2":                 resourceImagesImageV2(),
+			"telefonicaopencloud_kms_key_v1":                      resourceKmsKeyV1(),
 			"telefonicaopencloud_elb_loadbalancer":                resourceELBLoadBalancer(),
 			"telefonicaopencloud_elb_listener":                    resourceELBListener(),
 			"telefonicaopencloud_elb_healthcheck":                 resourceELBHealthCheck(),
