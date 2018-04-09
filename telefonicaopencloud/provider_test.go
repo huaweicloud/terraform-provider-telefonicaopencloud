@@ -18,6 +18,7 @@ var (
 	OS_DB_DATASTORE_TYPE      = os.Getenv("OS_DB_DATASTORE_TYPE")
 	OS_DEPRECATED_ENVIRONMENT = os.Getenv("OS_DEPRECATED_ENVIRONMENT")
 	OS_DNS_ENVIRONMENT        = os.Getenv("OS_DNS_ENVIRONMENT")
+	OS_MRS_ENVIRONMENT        = os.Getenv("OS_MRS_ENVIRONMENT")
 	OS_EXTGW_ID               = os.Getenv("OS_EXTGW_ID")
 	OS_FLAVOR_ID              = os.Getenv("OS_FLAVOR_ID")
 	OS_FLAVOR_NAME            = os.Getenv("OS_FLAVOR_NAME")
@@ -32,6 +33,9 @@ var (
 	OS_ACCESS_KEY             = os.Getenv("OS_ACCESS_KEY")
 	OS_SECRET_KEY             = os.Getenv("OS_SECRET_KEY")
 	OS_TENANT_ID              = os.Getenv("OS_TENANT_ID")
+	OS_VPC_NAME               = os.Getenv("OS_VPC_NAME")
+	OS_SUB_NETWORK_ID         = os.Getenv("OS_SUB_NETWORK_ID")
+	OS_SUB_NETWORK_NAME       = os.Getenv("OS_SUB_NETWORK_NAME")
 )
 
 var testAccProviders map[string]terraform.ResourceProvider
@@ -102,6 +106,15 @@ func testAccPreCheckDNS(t *testing.T) {
 
 	if OS_DNS_ENVIRONMENT == "" {
 		t.Skip("This environment does not support DNS tests")
+	}
+}
+
+func testAccPreCheckMRS(t *testing.T) {
+	testAccPreCheckRequiredEnvVars(t)
+
+	// Do not run the test if this is a standalone MRS environment.
+	if OS_MRS_ENVIRONMENT == "" {
+		t.Skip("This environment only runs MRS tests")
 	}
 }
 
