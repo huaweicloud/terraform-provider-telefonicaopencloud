@@ -220,6 +220,8 @@ func Provider() terraform.ResourceProvider {
 			"telefonicaopencloud_s3_bucket":                       resourceS3Bucket(),
 			"telefonicaopencloud_s3_bucket_policy":                resourceS3BucketPolicy(),
 			"telefonicaopencloud_s3_bucket_object":                resourceS3BucketObject(),
+			"telefonicaopencloud_mrs_cluster_v1":                  resourceMRSClusterV1(),
+			"telefonicaopencloud_mrs_job_v1":                      resourceMRSJobV1(),
 		},
 
 		ConfigureFunc: configureProvider,
