@@ -7,30 +7,6 @@ Terraform TelefonicaOpenCloud Provider
 
 <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" width="600px">
 
-Terraform-Provider-TelefonicaOpencloud is a Terraform Provider for TelefonicaOpencloud.
-It is based on [Terraform-Provider-OpenStack](https://github.com/terraform-providers/terraform-provider-openstack)
-which is a standard Terraform OpenStack Provider. Terraform-Provider-TelefonicaOpencloud has renamed OpenStack with TelefonicaOpencloud
-and added some enhancements to interact with the many resources supported by TelefonicaOpencloud.
-
-## Enhancements
-
-- **autoscaling**: auto scaling service
-- **ces**: cloud eye service
-- **rds**: relational database service
-- **elb**: elastic load balance service
-- **smn**: simple message notification service
-
-Maintainers
------------
-
-This provider plugin is maintained by:
-
-* Edward Lee ([@freesky-edward](https://github.com/freesky-edward))
-* zengchen ([@zengchen1024](https://github.com/zengchen1024))
-* Zhenguo Niu ([@niuzhenguo](https://github.com/niuzhenguo))
-* huangtianhua ([@h00130372](https://github.com/h00130372))
-* Chen Ying ([@chenyingkof](https://github.com/chenyingkof))
-
 Requirements
 ------------
 
