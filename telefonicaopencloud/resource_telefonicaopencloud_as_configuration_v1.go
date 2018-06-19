@@ -1,17 +1,17 @@
 package telefonicaopencloud
 
 import (
-	"fmt"
-	"log"
-
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
+	"log"
+	"os"
+	"regexp"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/huaweicloud/golangsdk"
 	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/configurations"
 	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/groups"
-	"os"
-	"regexp"
 )
 
 func resourceASConfiguration() *schema.Resource {
