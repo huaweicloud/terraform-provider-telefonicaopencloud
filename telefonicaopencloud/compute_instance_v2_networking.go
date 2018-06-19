@@ -1,5 +1,5 @@
 // This set of code handles all functions required to configure networking
-// on an telefonicaopencloud_compute_instance_v2 resource.
+// on a telefonicaopencloud_compute_instance_v2 resource.
 //
 // This is a complicated task because it's not possible to obtain all
 // information in a single API call. In fact, it even traverses multiple
