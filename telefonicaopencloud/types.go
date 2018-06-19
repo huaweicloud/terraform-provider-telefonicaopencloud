@@ -41,9 +41,6 @@ func (lrt *LogRoundTripper) RoundTrip(request *http.Request) (*http.Response, er
 		}
 	}()
 
-	// for future reference, this is how to access the Transport struct:
-	//tlsconfig := lrt.Rt.(*http.Transport).TLSClientConfig
-
 	var err error
 
 	if lrt.OsDebug {
