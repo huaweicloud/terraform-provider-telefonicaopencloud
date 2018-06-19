@@ -2,13 +2,13 @@ package telefonicaopencloud
 
 import (
 	"fmt"
+	"log"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
 	"github.com/huaweicloud/golangsdk/openstack/autoscaling/v1/groups"
-	"log"
 )
 
 func TestAccASV1Group_basic(t *testing.T) {
