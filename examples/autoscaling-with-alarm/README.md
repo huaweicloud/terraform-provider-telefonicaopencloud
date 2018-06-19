@@ -1,6 +1,6 @@
 # Configure an Auto-scaling Group with Alarm
 
-As you may know, there are many kinds of configurations for auto-scaling, one of the most important kind is to configure one group of servers which is able to scale via their status. the scenario would be:
+As you may know, there are many kinds of configurations for auto-scaling, one of the most important kind is to configure one group of servers which is able to scale via their status. the scenario
 
 > End user want a server group, this group will contain several servers which number can increase or decrease according to current workload.
 
