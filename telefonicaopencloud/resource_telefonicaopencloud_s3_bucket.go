@@ -353,11 +353,6 @@ func resourceS3BucketUpdate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error creating TelefonicaOpenCloud s3 client: %s", err)
 	}
 
-	/*
-		if err := setTagsS3(s3conn, d); err != nil {
-			return fmt.Errorf("%q: %s", d.Get("bucket").(string), err)
-		}
-	*/
 	if d.HasChange("policy") {
 		if err := resourceS3BucketPolicyUpdate(s3conn, d); err != nil {
 			return err
@@ -755,15 +750,6 @@ func resourceS3BucketRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	// Add the hosted zone ID for this bucket's region as an attribute
-	// UNUSED?
-	/*
-		hostedZoneID := HostedZoneIDForRegion(region)
-		if err := d.Set("hosted_zone_id", hostedZoneID); err != nil {
-			return err
-		}
-	*/
-
 	// Add website_endpoint as an attribute
 	websiteEndpoint, err := websiteEndpoint(s3conn, d)
 	if err != nil {
@@ -777,20 +763,6 @@ func resourceS3BucketRead(d *schema.ResourceData, meta interface{}) error {
 			return err
 		}
 	}
-
-	/*
-		tagSet, err := getTagSetS3(s3conn, d.Id())
-		if err != nil {
-			return err
-		}
-
-		if err := d.Set("tags", tagsToMapS3(tagSet)); err != nil {
-			return err
-		}
-	*/
-
-	// UNUSED?
-	//d.Set("arn", fmt.Sprintf("arn:%s:s3:::%s", meta.(*Config).partition, d.Id()))
 
 	return nil
 }
@@ -1227,7 +1199,6 @@ func resourceAwsS3BucketLifecycleUpdate(s3conn *s3.S3, d *schema.ResourceData) e
 
 	lifecycleRules := d.Get("lifecycle_rule").([]interface{})
 
-	//fmt.Printf("lifecycleRules=%+v.\n", lifecycleRules)
 	if len(lifecycleRules) == 0 {
 		i := &s3.DeleteBucketLifecycleInput{
 			Bucket: aws.String(bucket),
@@ -1311,14 +1282,12 @@ func resourceAwsS3BucketLifecycleUpdate(s3conn *s3.S3, d *schema.ResourceData) e
 		rules = append(rules, rule)
 	}
 
-	//fmt.Printf("Rules=%+v.\n", rules)
 	i := &s3.PutBucketLifecycleConfigurationInput{
 		Bucket: aws.String(bucket),
 		LifecycleConfiguration: &s3.BucketLifecycleConfiguration{
 			Rules: rules,
 		},
 	}
-	//fmt.Printf("PutBucketLifecycleConfigurationInput=%+v.\n", i)
 
 	err := resource.Retry(1*time.Minute, func() *resource.RetryError {
 		if _, err := s3conn.PutBucketLifecycleConfiguration(i); err != nil {

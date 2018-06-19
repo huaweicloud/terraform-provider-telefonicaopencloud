@@ -16,7 +16,6 @@ import (
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/objectstorage/v1/swauth"
-	//"github.com/gophercloud/utils/openstack/clientconfig"
 	"github.com/hashicorp/errwrap"
 	cleanhttp "github.com/hashicorp/go-cleanhttp"
 	"github.com/hashicorp/terraform/helper/pathorcontents"
@@ -158,7 +157,6 @@ func newopenstackClient(c *Config) error {
 	}
 
 	c.OsClient = client
-	//fmt.Printf("[DEBUG] Region: %s.\n", c.Region)
 
 	// Don't get AWS session unless we need it for Accesskey, SecretKey.
 	if c.AccessKey != "" && c.SecretKey != "" {
@@ -186,9 +184,7 @@ func newopenstackClient(c *Config) error {
 		awsConfig := &aws.Config{
 			Credentials: creds,
 			Region:      aws.String(c.Region),
-			//MaxRetries:       aws.Int(c.MaxRetries),
-			HTTPClient: cleanhttp.DefaultClient(),
-			//S3ForcePathStyle: aws.Bool(c.S3ForcePathStyle),
+			HTTPClient:  cleanhttp.DefaultClient(),
 		}
 
 		if osDebug {
@@ -292,7 +288,6 @@ func newhwClient(c *Config) error {
 	}
 
 	c.HwClient = client
-	//fmt.Printf("[DEBUG] Region: %s.\n", c.Region)
 
 	return nil
 }

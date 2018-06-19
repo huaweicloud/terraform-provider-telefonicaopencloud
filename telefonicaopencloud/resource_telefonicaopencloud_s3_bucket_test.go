@@ -1,7 +1,6 @@
 package telefonicaopencloud
 
 import (
-	//"bytes"
 	"encoding/json"
 	"fmt"
 	"reflect"
@@ -16,25 +15,18 @@ import (
 
 	"strings"
 
+	"bytes"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	//"github.com/aws/aws-sdk-go/service/ec2"
-	"bytes"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-// PASS
 func TestAccS3Bucket_basic(t *testing.T) {
 	rInt := acctest.RandInt()
-	//arnRegexp := regexp.MustCompile("^arn:aws:s3:::")
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheckObs(t) },
-		/*
-			IDRefreshName:   "telefonicaopencloud_s3_bucket.bucket",
-			IDRefreshIgnore: []string{"force_destroy"},
-		*/
+		PreCheck:     func() { testAccPreCheckObs(t) },
 		Providers:    testAccProviders,
 		CheckDestroy: testAccCheckS3BucketDestroy,
 		Steps: []resource.TestStep{
@@ -42,14 +34,10 @@ func TestAccS3Bucket_basic(t *testing.T) {
 				Config: testAccS3BucketConfig(rInt),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckS3BucketExists("telefonicaopencloud_s3_bucket.bucket"),
-					/*resource.TestCheckResourceAttr(
-					"telefonicaopencloud_s3_bucket.bucket", "hosted_zone_id", HostedZoneIDForRegion("us-west-2")), */
 					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_s3_bucket.bucket", "region", OS_REGION_NAME),
 					resource.TestCheckNoResourceAttr(
 						"telefonicaopencloud_s3_bucket.bucket", "website_endpoint"),
-					/*resource.TestMatchResourceAttr(
-					"telefonicaopencloud_s3_bucket.bucket", "arn", arnRegexp), */
 					resource.TestCheckResourceAttr(
 						"telefonicaopencloud_s3_bucket.bucket", "bucket", testAccBucketName(rInt)),
 					resource.TestCheckResourceAttr(
@@ -65,7 +53,6 @@ func TestAccAWSS3MultiBucket_withTags(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheckObs(t) },
 		Providers: testAccProviders,
-		//CheckDestroy: testAccCheckAWSS3BucketDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccAWSS3MultiBucketConfigWithTags(rInt),
@@ -74,7 +61,6 @@ func TestAccAWSS3MultiBucket_withTags(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_namePrefix(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheckObs(t) },
@@ -93,7 +79,6 @@ func TestAccS3Bucket_namePrefix(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_generatedName(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheckObs(t) },
@@ -110,7 +95,6 @@ func TestAccS3Bucket_generatedName(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_region(t *testing.T) {
 	rInt := acctest.RandInt()
 
@@ -130,7 +114,6 @@ func TestAccS3Bucket_region(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Policy(t *testing.T) {
 	rInt := acctest.RandInt()
 
@@ -167,7 +150,6 @@ func TestAccS3Bucket_Policy(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_UpdateAcl(t *testing.T) {
 	ri := acctest.RandInt()
 	preConfig := fmt.Sprintf(testAccS3BucketConfigWithAcl, ri)
@@ -198,7 +180,6 @@ func TestAccS3Bucket_UpdateAcl(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Website_Simple(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -240,7 +221,6 @@ func TestAccS3Bucket_Website_Simple(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_WebsiteRedirect(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -282,7 +262,6 @@ func TestAccS3Bucket_WebsiteRedirect(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_WebsiteRoutingRules(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -331,7 +310,6 @@ func TestAccS3Bucket_WebsiteRoutingRules(t *testing.T) {
 // Test TestAccAWSS3Bucket_shouldFailNotFound is designed to fail with a "plan
 // not empty" error in Terraform, to check against regresssions.
 // See https://github.com/hashicorp/terraform/pull/2925
-// PASS
 func TestAccS3Bucket_shouldFailNotFound(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -351,7 +329,6 @@ func TestAccS3Bucket_shouldFailNotFound(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Versioning(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -387,7 +364,6 @@ func TestAccS3Bucket_Versioning(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Cors(t *testing.T) {
 	rInt := acctest.RandInt()
 
@@ -471,7 +447,6 @@ func TestAccS3Bucket_Cors(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Logging(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -491,7 +466,6 @@ func TestAccS3Bucket_Logging(t *testing.T) {
 	})
 }
 
-// PASS
 func TestAccS3Bucket_Lifecycle(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
@@ -633,7 +607,6 @@ func TestS3BucketName(t *testing.T) {
 
 func testAccCheckS3BucketDestroy(s *terraform.State) error {
 	// UNDONE: Why instance check?
-	//return testAccCheckInstanceDestroyWithProvider(s, testAccProvider)
 	return nil
 }
 
