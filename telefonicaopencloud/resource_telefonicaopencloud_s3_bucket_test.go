@@ -48,14 +48,14 @@ func TestAccS3Bucket_basic(t *testing.T) {
 	})
 }
 
-func TestAccAWSS3MultiBucket_withTags(t *testing.T) {
+func TestAccS3MultiBucket_withTags(t *testing.T) {
 	rInt := acctest.RandInt()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheckObs(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccAWSS3MultiBucketConfigWithTags(rInt),
+				Config: testAccS3MultiBucketConfigWithTags(rInt),
 			},
 		},
 	})
@@ -307,7 +307,7 @@ func TestAccS3Bucket_WebsiteRoutingRules(t *testing.T) {
 	})
 }
 
-// Test TestAccAWSS3Bucket_shouldFailNotFound is designed to fail with a "plan
+// Test TestAccS3Bucket_shouldFailNotFound is designed to fail with a "plan
 // not empty" error in Terraform, to check against regresssions.
 // See https://github.com/hashicorp/terraform/pull/2925
 func TestAccS3Bucket_shouldFailNotFound(t *testing.T) {
@@ -916,7 +916,6 @@ func testAccCheckS3BucketLogging(n, b, p string) resource.TestCheckFunc {
 }
 
 // These need a bit of randomness as the name can only be used once globally
-// within AWS
 func testAccBucketName(randInt int) string {
 	return fmt.Sprintf("tf-test-bucket-%d", randInt)
 }
@@ -942,7 +941,7 @@ resource "telefonicaopencloud_s3_bucket" "bucket" {
 `, randInt)
 }
 
-func testAccAWSS3MultiBucketConfigWithTags(randInt int) string {
+func testAccS3MultiBucketConfigWithTags(randInt int) string {
 	t := template.Must(template.New("t1").
 		Parse(`
 resource "telefonicaopencloud_s3_bucket" "bucket1" {
