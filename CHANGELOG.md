@@ -6,7 +6,6 @@ FEATURES:
 * **New Data Source:** `telefonicaopencloud_networking_network_v2`
 * **New Data Source:** `telefonicaopencloud_networking_subnet_v2`
 * **New Data Source:** `telefonicaopencloud_networking_secgroup_v2`
-* **New Data Source:** `telefonicaopencloud_rds_flavors_v1`
 * **New Data Source:** `telefonicaopencloud_s3_bucket_object`
 * **New Resource:** `telefonicaopencloud_blockstorage_volume_v2`
 * **New Resource:** `telefonicaopencloud_compute_instance_v2`
@@ -38,7 +37,6 @@ FEATURES:
 * **New Resource:** `telefonicaopencloud_ces_alarmrule`
 * **New Resource:** `telefonicaopencloud_smn_topic_v2`
 * **New Resource:** `telefonicaopencloud_smn_subscription_v2`
-* **New Resource:** `telefonicaopencloud_rds_instance_v1`
 * **New Resource:** `telefonicaopencloud_s3_bucket`
 * **New Resource:** `telefonicaopencloud_s3_bucket_policy`
 * **New Resource:** `telefonicaopencloud_s3_bucket_object`
